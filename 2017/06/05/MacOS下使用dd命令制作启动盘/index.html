@@ -90,15 +90,19 @@
 
 
 
-<meta name="description" content="go all out in work">
-<meta property="og:type" content="website">
-<meta property="og:title" content="zhwuer的BLOG">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta name="description" content="在Linux/Mac中使用dd命令烧录.iso镜像至USB硬盘最近想把在Mac上装个KaliLinux，无奈虚拟机中的Windows制作启动盘实在太慢，于是想着Mac中有没有烧录工具，百度以后发现dd命令是Mac和Linux系统的制作启动盘命令。 打开终端，输入1$ diskutil list 输出大致如下（这里/dev/disk1/是我的U盘） 然后使用Mac的磁盘工具格式化U盘，选择抹掉，设置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MacOS下使用dd命令制作启动盘">
+<meta property="og:url" content="http://yoursite.com/2017/06/05/MacOS下使用dd命令制作启动盘/index.html">
 <meta property="og:site_name" content="zhwuer的BLOG">
-<meta property="og:description" content="go all out in work">
+<meta property="og:description" content="在Linux/Mac中使用dd命令烧录.iso镜像至USB硬盘最近想把在Mac上装个KaliLinux，无奈虚拟机中的Windows制作启动盘实在太慢，于是想着Mac中有没有烧录工具，百度以后发现dd命令是Mac和Linux系统的制作启动盘命令。 打开终端，输入1$ diskutil list 输出大致如下（这里/dev/disk1/是我的U盘） 然后使用Mac的磁盘工具格式化U盘，选择抹掉，设置">
+<meta property="og:image" content="file:///Users/Jartus/zhwuer.github.io/source/1.png">
+<meta property="og:image" content="file:///Users/Jartus/zhwuer.github.io/source/2.png">
+<meta property="og:updated_time" content="2017-06-05T03:25:51.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="zhwuer的BLOG">
-<meta name="twitter:description" content="go all out in work">
+<meta name="twitter:title" content="MacOS下使用dd命令制作启动盘">
+<meta name="twitter:description" content="在Linux/Mac中使用dd命令烧录.iso镜像至USB硬盘最近想把在Mac上装个KaliLinux，无奈虚拟机中的Windows制作启动盘实在太慢，于是想着Mac中有没有烧录工具，百度以后发现dd命令是Mac和Linux系统的制作启动盘命令。 打开终端，输入1$ diskutil list 输出大致如下（这里/dev/disk1/是我的U盘） 然后使用Mac的磁盘工具格式化U盘，选择抹掉，设置">
+<meta name="twitter:image" content="file:///Users/Jartus/zhwuer.github.io/source/1.png">
 
 
 
@@ -126,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/05/MacOS下使用dd命令制作启动盘/"/>
 
 
 
 
 
-  <title>zhwuer的BLOG</title>
+  <title>MacOS下使用dd命令制作启动盘 | zhwuer的BLOG</title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -167,9 +171,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-   page-home 
- ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
     <a href="https://github.com/zhwuer"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
     
@@ -273,9 +275,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -301,9 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/05/MacOS下使用dd命令制作启动盘/" itemprop="url">MacOS下使用dd命令制作启动盘</a></h1>
+          <h1 class="post-title" itemprop="name headline">MacOS下使用dd命令制作启动盘</h1>
         
 
         <div class="post-meta">
@@ -361,32 +361,48 @@
       
 
       
+        <h1 id="在Linux-Mac中使用dd命令烧录-iso镜像至USB硬盘"><a href="#在Linux-Mac中使用dd命令烧录-iso镜像至USB硬盘" class="headerlink" title="在Linux/Mac中使用dd命令烧录.iso镜像至USB硬盘"></a>在Linux/Mac中使用dd命令烧录.iso镜像至USB硬盘</h1><p>最近想把在Mac上装个KaliLinux，无奈虚拟机中的Windows制作启动盘实在太慢，于是想着Mac中有没有烧录工具，百度以后发现dd命令是Mac和Linux系统的制作启动盘命令。</p>
+<h3 id="打开终端，输入"><a href="#打开终端，输入" class="headerlink" title="打开终端，输入"></a>打开终端，输入</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ diskutil list</div></pre></td></tr></table></figure>
+<h3 id="输出大致如下（这里-dev-disk1-是我的U盘）"><a href="#输出大致如下（这里-dev-disk1-是我的U盘）" class="headerlink" title="输出大致如下（这里/dev/disk1/是我的U盘）"></a>输出大致如下（这里/dev/disk1/是我的U盘）</h3><p><img src="file:///Users/Jartus/zhwuer.github.io/source/1.png" alt="Picture"></p>
+<h3 id="然后使用Mac的磁盘工具格式化U盘，选择抹掉，设置如下图"><a href="#然后使用Mac的磁盘工具格式化U盘，选择抹掉，设置如下图" class="headerlink" title="然后使用Mac的磁盘工具格式化U盘，选择抹掉，设置如下图"></a>然后使用Mac的磁盘工具格式化U盘，选择抹掉，设置如下图</h3><p><img src="file:///Users/Jartus/zhwuer.github.io/source/2.png" alt="Picture"></p>
+<h5 id="确保分区模式是GUID分区"><a href="#确保分区模式是GUID分区" class="headerlink" title="确保分区模式是GUID分区"></a>确保分区模式是GUID分区</h5><h3 id="转换镜像格式-这一步不是必须的，dd命令也可以烧录iso格式"><a href="#转换镜像格式-这一步不是必须的，dd命令也可以烧录iso格式" class="headerlink" title="转换镜像格式(这一步不是必须的，dd命令也可以烧录iso格式)"></a>转换镜像格式(这一步不是必须的，dd命令也可以烧录iso格式)</h3><p>以下引用百度经验：</p>
+<blockquote>
+<p>hdiutil convert -format UDRW -o ~/Path-to-IMG-file ~/Path-to-ISO-file通常下载的文件会在~/Downloads目录下。<br>所以输入的命令是:<br>    hdiutil convert -format UDRW -o ~/Downloads/ubuntu-14.10-desktop-amd64 ~/Downloads/ubuntu-14.10-desktop-amd64.iso值得注意的是，并没有新转换出的文件加上IMG后缀，因为后缀只是个标志，重要的是文件类型并不是文件的扩展名。转换出来的文件可能会被Mac OS X系统自动加上个.dmg后缀。</p>
+</blockquote>
+<p>在这里我的命令是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hdiutil convert -format UDRW -o ~/Downloads/kali-linux-2016.2-amd64 ~/Downloads/kali-linux-2016.2-amd64.iso</div></pre></td></tr></table></figure>
+<p>将iso格式转换为dmg格式</p>
+<h3 id="接下来将U盘unmount"><a href="#接下来将U盘unmount" class="headerlink" title="接下来将U盘unmount"></a>接下来将U盘unmount</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ diskutil unmountDisk /dev/disk1</div></pre></td></tr></table></figure>
+<p>#####将你的路径替换掉/dev/disk1</p>
+<p>####这一步是必须的，不然后面使用dd命令会显示资源繁忙</p>
+<p>###最后终于可以使用dd命令了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo dd if=~/Downloads/kali-linux-2016.2-amd64.dmg of=/dev/rdisk1 bs=1m</div></pre></td></tr></table></figure></p>
+<p>#####同理这里把你的镜像路径和磁盘路径替换掉</p>
+<p>#####/dev/disk1换成/dev/rdisk1可以提高速度</p>
+<p>#####烧录过程不会有任何提示信息直到烧录完成（太不人性化了！！！）</p>
+<p>###推出磁盘<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ diskutil eject /dev/disk1</div></pre></td></tr></table></figure></p>
+<p>#####如果有窗口提示要不要推出磁盘，则使用终端来推出磁盘，然后在窗口选择ignore</p>
+
+      
+    </div>
+
+    <div>
+      
         
-          
-          在Linux/Mac中使用dd命令烧录.iso镜像至USB硬盘最近想把在Mac上装个KaliLinux，无奈虚拟机中的Windows制作启动盘实在太慢，于是想着Mac中有没有烧录工具，百度以后发现dd命令是Mac和Linux系统的制作启动盘命令。
-打开终端，输入1$ diskutil list
-输出
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/06/05/MacOS下使用dd命令制作启动盘/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
+
+      
+    </div>
+
+    <div>
+      
         
+
       
     </div>
 
     <div>
       
-    </div>
+        
 
-    <div>
-      
-    </div>
-
-    <div>
       
     </div>
 
@@ -394,410 +410,38 @@
       
 
       
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/02/知道创宇SkillList/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="zhwuer">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhwuer的BLOG">
-    </span>
-
-    
-      <header class="post-header">
-
         
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/02/知道创宇SkillList/" itemprop="url">知道创宇SkillList</a></h1>
-        
+      
 
-        <div class="post-meta">
-          <span class="post-time">
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-02T10:56:21+08:00">
-                2017-06-02
-              </time>
+              <a href="/2017/06/02/知道创宇SkillList/" rel="next" title="知道创宇SkillList">
+                <i class="fa fa-chevron-left"></i> 知道创宇SkillList
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/06/02/知道创宇SkillList/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/06/02/知道创宇SkillList/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-          余弦大佬的技能表知道创宇技能表
-
-          
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/06/02/知道创宇SkillList/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/30/听说大牛都爱写博客/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="zhwuer">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhwuer的BLOG">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/05/30/听说大牛都爱写博客/" itemprop="url">听说大牛都爱写博客</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-30T18:59:37+08:00">
-                2017-05-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/30/听说大牛都爱写博客/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/05/30/听说大牛都爱写博客/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          本来只是好奇练习一下怎么用Hexo和GitHub搭一个博客的，没想自己写，不过搭完以后想想自己不写不就浪费了嘛，所以决定随便写一点…
-
-          
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/30/听说大牛都爱写博客/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+    <div class="post-spread">
       
     </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/05/30/test/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="zhwuer">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="zhwuer的BLOG">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/05/30/test/" itemprop="url">Test</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-30T18:38:59+08:00">
-                2017-05-30
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/2017/05/30/test/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2017/05/30/test/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in 
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/30/test/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
+  </div>
 
 
           </div>
@@ -805,6 +449,17 @@
 
 
           
+  <div class="comments" id="comments">
+    
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    
+  </div>
+
 
         </div>
         
@@ -824,8 +479,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -878,6 +542,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#在Linux-Mac中使用dd命令烧录-iso镜像至USB硬盘"><span class="nav-number">1.</span> <span class="nav-text">在Linux/Mac中使用dd命令烧录.iso镜像至USB硬盘</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#打开终端，输入"><span class="nav-number">1.0.1.</span> <span class="nav-text">打开终端，输入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输出大致如下（这里-dev-disk1-是我的U盘）"><span class="nav-number">1.0.2.</span> <span class="nav-text">输出大致如下（这里/dev/disk1/是我的U盘）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#然后使用Mac的磁盘工具格式化U盘，选择抹掉，设置如下图"><span class="nav-number">1.0.3.</span> <span class="nav-text">然后使用Mac的磁盘工具格式化U盘，选择抹掉，设置如下图</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#确保分区模式是GUID分区"><span class="nav-number">1.0.3.0.1.</span> <span class="nav-text">确保分区模式是GUID分区</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#转换镜像格式-这一步不是必须的，dd命令也可以烧录iso格式"><span class="nav-number">1.0.4.</span> <span class="nav-text">转换镜像格式(这一步不是必须的，dd命令也可以烧录iso格式)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接下来将U盘unmount"><span class="nav-number">1.0.5.</span> <span class="nav-text">接下来将U盘unmount</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -991,6 +671,10 @@
   
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
 
   
 
@@ -1008,6 +692,18 @@
       <script id="dsq-count-scr" src="https://zhwuer.disqus.com/count.js" async></script>
     
 
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://yoursite.com/2017/06/05/MacOS下使用dd命令制作启动盘/';
+          this.page.identifier = '2017/06/05/MacOS下使用dd命令制作启动盘/';
+          this.page.title = 'MacOS下使用dd命令制作启动盘';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://zhwuer.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
     
 
   
