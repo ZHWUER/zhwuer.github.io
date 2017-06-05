@@ -98,7 +98,8 @@
 <meta property="og:description" content="在Linux/Mac中使用dd命令烧录.iso镜像至USB硬盘最近想在Mac上装个KaliLinux，无奈虚拟机中的Windows制作启动盘实在太慢，于是想着Mac中有没有烧录工具，百度以后发现dd命令是Mac和Linux系统的制作启动盘命令。 打开终端，输入1$ diskutil list 输出大致如下（这里/dev/disk1/是我的U盘） 然后使用Mac的磁盘工具格式化U盘，选择抹掉，设置如">
 <meta property="og:image" content="https://github.com/zhwuer/zhwuer.github.io/blob/master/1.png?raw=true">
 <meta property="og:image" content="https://github.com/zhwuer/zhwuer.github.io/blob/master/2.png?raw=true">
-<meta property="og:updated_time" content="2017-06-05T04:14:50.000Z">
+<meta property="og:image" content="https://github.com/zhwuer/zhwuer.github.io/blob/master/3.png?raw=true">
+<meta property="og:updated_time" content="2017-06-05T04:27:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MacOS下使用dd命令制作启动盘">
 <meta name="twitter:description" content="在Linux/Mac中使用dd命令烧录.iso镜像至USB硬盘最近想在Mac上装个KaliLinux，无奈虚拟机中的Windows制作启动盘实在太慢，于是想着Mac中有没有烧录工具，百度以后发现dd命令是Mac和Linux系统的制作启动盘命令。 打开终端，输入1$ diskutil list 输出大致如下（这里/dev/disk1/是我的U盘） 然后使用Mac的磁盘工具格式化U盘，选择抹掉，设置如">
@@ -377,6 +378,7 @@
 <p>将你的路径替换掉/dev/disk1<br>这一步是必须的，不然后面使用dd命令会显示资源繁忙</p>
 <h3 id="最后终于可以使用dd命令了"><a href="#最后终于可以使用dd命令了" class="headerlink" title="最后终于可以使用dd命令了"></a>最后终于可以使用dd命令了</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ sudo dd if=~/Downloads/kali-linux-2016.2-amd64.dmg of=/dev/rdisk1 bs=1m</div></pre></td></tr></table></figure>
 <p>同理这里把你的镜像路径和磁盘路径替换掉<br>/dev/disk1换成/dev/rdisk1可以提高速度<br>烧录过程不会有任何提示信息直到烧录完成（太不人性化了！！！）</p>
+<p><img src="https://github.com/zhwuer/zhwuer.github.io/blob/master/3.png?raw=true" alt="Picture"></p>
 <h3 id="推出磁盘"><a href="#推出磁盘" class="headerlink" title="推出磁盘"></a>推出磁盘</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ diskutil eject /dev/disk1</div></pre></td></tr></table></figure>
 <p>如果有窗口提示要不要推出磁盘，则使用终端来推出磁盘，然后在窗口选择ignore</p>
 
