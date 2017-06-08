@@ -96,10 +96,14 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/08/mac下php连接mysql报错＂no directory＂的解决办法/index.html">
 <meta property="og:site_name" content="zhwuer的BLOG">
 <meta property="og:description" content="author: stormer  首先做个简短的介绍。 [说明1]MAC下MYSQL的安装路径：/usr/local/mysql-5.5.28-osx10.6-x86 数据库的数据文件在该目录的data文件夹中； 命令文件在bin文件夹中。 [说明2]通过终端打开MYSQL命令行的方法：/usr/local/mysql-5.5.28-osx10.6-x86/bin/mysql 好下面说一下连接M">
-<meta property="og:updated_time" content="2017-06-08T06:13:14.000Z">
+<meta property="og:image" content="https://github.com/zhwuer/zhwuer.github.io/blob/master/6.png?raw=true">
+<meta property="og:image" content="https://github.com/zhwuer/zhwuer.github.io/blob/master/5.png?raw=true">
+<meta property="og:image" content="https://github.com/zhwuer/zhwuer.github.io/blob/master/4.png?raw=true">
+<meta property="og:updated_time" content="2017-06-08T06:20:06.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mac下php连接mysql报错＂no directory＂的解决办法">
 <meta name="twitter:description" content="author: stormer  首先做个简短的介绍。 [说明1]MAC下MYSQL的安装路径：/usr/local/mysql-5.5.28-osx10.6-x86 数据库的数据文件在该目录的data文件夹中； 命令文件在bin文件夹中。 [说明2]通过终端打开MYSQL命令行的方法：/usr/local/mysql-5.5.28-osx10.6-x86/bin/mysql 好下面说一下连接M">
+<meta name="twitter:image" content="https://github.com/zhwuer/zhwuer.github.io/blob/master/6.png?raw=true">
 
 
 
@@ -367,14 +371,12 @@
 <p>命令文件在bin文件夹中。</p>
 <p>[说明2]通过终端打开MYSQL命令行的方法：/usr/local/mysql-5.5.28-osx10.6-x86/bin/mysql</p>
 <p>好下面说一下连接MYSQL数据库时报错的解决办法。</p>
-<p>1,首先确定是mysql_connect()和mysql_pconnect()的问题，故障现象就是函数返回空，而mysql_error()返回“No such file or directory”</p>
-<p>2,写个phpinfo页面，找到mysql.default_socket、mysqli.default_socket、pdo_mysql.default_socket</p>
-<p>3,启动mysql（见说明2），执行命令 STATUS; 记下UNIX socket的值</p>
+<h3 id="1-首先确定是mysql-connect-和mysql-pconnect-的问题，故障现象就是函数返回空，而mysql-error-返回“No-such-file-or-directory”"><a href="#1-首先确定是mysql-connect-和mysql-pconnect-的问题，故障现象就是函数返回空，而mysql-error-返回“No-such-file-or-directory”" class="headerlink" title="1,首先确定是mysql_connect()和mysql_pconnect()的问题，故障现象就是函数返回空，而mysql_error()返回“No such file or directory”"></a>1,首先确定是mysql_connect()和mysql_pconnect()的问题，故障现象就是函数返回空，而mysql_error()返回“No such file or directory”</h3><h3 id="2-写个phpinfo页面，找到mysql-default-socket、mysqli-default-socket、pdo-mysql-default-socket"><a href="#2-写个phpinfo页面，找到mysql-default-socket、mysqli-default-socket、pdo-mysql-default-socket" class="headerlink" title="2,写个phpinfo页面，找到mysql.default_socket、mysqli.default_socket、pdo_mysql.default_socket"></a>2,写个phpinfo页面，找到mysql.default_socket、mysqli.default_socket、pdo_mysql.default_socket</h3><h3 id="3-启动mysql（见说明2），执行命令-STATUS-记下UNIX-socket的值"><a href="#3-启动mysql（见说明2），执行命令-STATUS-记下UNIX-socket的值" class="headerlink" title="3,启动mysql（见说明2），执行命令 STATUS; 记下UNIX socket的值"></a>3,启动mysql（见说明2），执行命令 STATUS; 记下UNIX socket的值</h3><p><img src="https://github.com/zhwuer/zhwuer.github.io/blob/master/6.png?raw=true" alt="Picture"></p>
 <p>Mac下PHP连接MYSQL报错＂No such file or directory＂的解决办法</p>
-<p>4,如果2和3的值不一样，则打开php.ini（可以从phpinfo页面中找到php.ini的位置，默认是/private/etc/php.ini），将2中提到的三个配置项的值改成3的值。</p>
+<h3 id="4-如果2和3的值不一样，则打开php-ini（可以从phpinfo页面中找到php-ini的位置，默认是-private-etc-php-ini），将2中提到的三个配置项的值改成3的值。"><a href="#4-如果2和3的值不一样，则打开php-ini（可以从phpinfo页面中找到php-ini的位置，默认是-private-etc-php-ini），将2中提到的三个配置项的值改成3的值。" class="headerlink" title="4,如果2和3的值不一样，则打开php.ini（可以从phpinfo页面中找到php.ini的位置，默认是/private/etc/php.ini），将2中提到的三个配置项的值改成3的值。"></a>4,如果2和3的值不一样，则打开php.ini（可以从phpinfo页面中找到php.ini的位置，默认是/private/etc/php.ini），将2中提到的三个配置项的值改成3的值。</h3><p><img src="https://github.com/zhwuer/zhwuer.github.io/blob/master/5.png?raw=true" alt="Picture"></p>
 <p>Mac下PHP连接MYSQL报错＂No such file or directory＂的解决办法</p>
 <p>（注意，一共修改三处，分别为：mysql.default_socket、mysqli.default_socket、pdo_mysql.default_socket）</p>
-<p>5,重启apache</p>
+<h3 id="5-重启apache"><a href="#5-重启apache" class="headerlink" title="5,重启apache"></a>5,重启apache</h3><p><img src="https://github.com/zhwuer/zhwuer.github.io/blob/master/4.png?raw=true" alt="Picture"></p>
 <p>Mac下PHP连接MYSQL报错＂No such file or directory＂的解决办法</p>
 <p>OK，到这里错误就排除了。</p>
 
@@ -475,8 +477,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/avatar.png"
@@ -529,6 +540,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-首先确定是mysql-connect-和mysql-pconnect-的问题，故障现象就是函数返回空，而mysql-error-返回“No-such-file-or-directory”"><span class="nav-number">1.</span> <span class="nav-text">1,首先确定是mysql_connect()和mysql_pconnect()的问题，故障现象就是函数返回空，而mysql_error()返回“No such file or directory”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-写个phpinfo页面，找到mysql-default-socket、mysqli-default-socket、pdo-mysql-default-socket"><span class="nav-number">2.</span> <span class="nav-text">2,写个phpinfo页面，找到mysql.default_socket、mysqli.default_socket、pdo_mysql.default_socket</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-启动mysql（见说明2），执行命令-STATUS-记下UNIX-socket的值"><span class="nav-number">3.</span> <span class="nav-text">3,启动mysql（见说明2），执行命令 STATUS; 记下UNIX socket的值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-如果2和3的值不一样，则打开php-ini（可以从phpinfo页面中找到php-ini的位置，默认是-private-etc-php-ini），将2中提到的三个配置项的值改成3的值。"><span class="nav-number">4.</span> <span class="nav-text">4,如果2和3的值不一样，则打开php.ini（可以从phpinfo页面中找到php.ini的位置，默认是/private/etc/php.ini），将2中提到的三个配置项的值改成3的值。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-重启apache"><span class="nav-number">5.</span> <span class="nav-text">5,重启apache</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
