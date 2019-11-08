@@ -1,55 +1,482 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="stylesheet" href="css/style.css">
 </head>
+
+<style>
+
+.wrapper > div {
+    border: 1px solid rgba(86,61,124,.2);
+    border-radius: 1px;
+    background-color: rgba(86,61,124,.15);
+    padding: 1em;
+}
+
+.wrapper {
+    display: grid;
+    
+    grid-template-columns: repeat(12, 1fr);
+    grid-gap: 0px;
+    grid-auto-rows: minmax(60px, auto);
+}
+.groupno {
+    grid-column: 1 / 13;
+    grid-row: 1 ;
+    text-align: center;
+}
+.backlog {
+    grid-column: 1 / 3;
+    grid-row: 2 / 5;
+}
+.todo {
+    grid-column: 3 / 5;
+    grid-row: 2 / 5;
+}
+.inprog {
+    grid-column: 5 / 7;
+    grid-row: 2 / 5;
+}
+.done {
+    grid-column: 7 / 9;
+    grid-row: 2 / 5;
+}
+.status {
+    grid-column: 9 / 11;
+    grid-row: 2 / 5;
+}
+.button {
+    grid-column: 11 / 13;
+    grid-row: 2 / 5;
+}
+.bdctitle {
+    grid-column: 1 / 13;
+    text-align: center;
+}
+.bdc {
+    grid-column: 1 / 13;
+    grid-row: span 3;
+}
+
+div.title {
+    text-align: center;
+}
+.title1{
+    text-align: center;
+    font-size: 18px;
+}
+div.story {
+    background-color: rgba(118, 129, 126, 0.705);
+    border-radius:5px;
+    padding: 5px;
+    text-align: center;
+    margin: 5px;
+    cursor:pointer;   
+}
+.story:hover{
+    background-color: rgba(14, 26, 22, 0.705);
+    margin: 8px;
+}
+.diceblock{
+    background-color: rgba(118, 129, 126, 0.705);
+    border-radius:5px;
+    padding: 5px;
+    text-align: center;
+    margin: 5px;
+    cursor:pointer;  
+}
+.diceblock:hover{
+    background-color: rgba(14, 26, 22, 0.705);
+    margin: 8px;
+}
+.xuanxiang{
+    background-color: rgba(118, 129, 126, 0.705);
+    border-radius:5px;
+    padding: 5px;
+    text-align: center;
+    margin: 2px;
+    cursor:pointer;
+}
+.xuanxiang:hover{
+    background-color: rgba(14, 26, 22, 0.705);
+}
+.story2{
+    background-color: rgba(118, 129, 126, 0.705);
+    border-radius:5px;
+    padding: 5px;
+    text-align: center;
+    margin: 5px;
+}
+.inputnumber{
+    position: absolute;
+    left:1100px;
+    top:10px;
+}
+
+</style>
 <body>
 
 <div class="wrapper">
 
-    <div class="groupno">GROUP NO.</div>
+    <div class="groupno">number of group:{{ngroup}}</div>
+    <div class="inputnumber">
+            input number of team
+        <input type="text" v-model="ngroup">
+    </div>
 
     <div class="backlog">
         <div class="title">BACKLOG</div>
-        <div class="story">#1 56/56h</div>
-        <div class="story">#2 56/56h</div>
-        <div class="story">#3 56/56h</div>
-        <div class="story">#4 56/56h</div>
-        <div class="story">#5 56/56h</div>
-        <div class="story">#6 56/56h</div>
+        <div class="story" v-for="item in storyset" v-if="chushihua()" v-on:click="xuantodo(item)">story:{{item.name}}  fulltime:{{item.fulltime}}</div>
     </div>
 
     <div class="todo">
         <div class="title">TODO</div>
-        <div class="story">#7 56/56h</div>
+        <div class="story2" v-for="item in todoset" v-if="chushihua()">
+            story:{{item.name}}   time:{{item.time}}/{{item.fulltime}}
+            <div class="xuanxiang" v-on:click="chooseTR(item)" v-if="jixuxuan()">choose</div>
+        </div>
     </div>
 
     <div class="inprog">
         <div class="title">PROGRESS</div>
-        <div class="story">#8 56/56h</div>
-        <div class="story">#9 56/56h</div>
-        <div class="story">#10 56/56h</div>
+        <div class="story" v-for="item in progressset" v-if="chushihua()">story:{{item.name}}   time:{{item.time}}/{{item.fulltime}}   head:{{item.people}}</div>
     </div>
 
     <div class="done">
         <div class="title">DONE</div>
-        <div class="story">#12 0/56h</div>
+        <div class="story" v-for="item in doneset" v-if="chushihua()">story:{{item.name}}  time:{{item.time}}/{{item.fulltime}}</div>
     </div>
 
     <div class="status">
         <div class="title">STATUS</div>
+        <div class="title1">turn：number {{number}}'s turn</div>
+        <div class="title1" v-for="item in peoplestatus"> people:{{item.number}} dicenumber:{{item.dicenumber}} story:{{item.story}}</div>
+        <div class="diceblock" v-if="statuskeshi" v-on:click="rolldicestory()">{{dicevalue}}</div>
     </div>
 
     <div class="button">
         <div class="title">BUTTON</div>
+        <div class="diceblock" v-on:click="roll()">roll dices</div>
+        <div class="diceblock" v-on:click="random()">random events</div>
+        <div class="diceblock" v-on:click="nextstep()">next</div>
     </div>
 
     <div class="bdctitle">BURNDOWNCHART</div>
-    <div class="bdc"></div>
+    <div class="bdc">{{muqiantime}}/{{totaltime}}</div>
 
 </div>
 
 </body>
+
+
+<script src="F:\pro\pro\node_modules\vue\dist\vue.js"></script>
+<script type="text/javascript">
+    window.onload = function(){
+        let vm=new Vue({
+            el:".wrapper",
+            data:{
+                number:4,
+                ngroup:"",
+                totaltime:"",
+                muqiantime:"",
+                statuskeshi:false,
+                dicevalue:"roll a dice choose a event!",
+                currentspirit:1,
+                solution:"0",
+                storyset:[
+                    {name:"#1",fulltime:"60",time:"60",people:"",blocked:""},
+                    {name:"#2",fulltime:"50",time:"50",people:"",blocked:""},
+                    {name:"#3",fulltime:"40",time:"40",people:"",blocked:""},
+                    {name:"#4",fulltime:"30",time:"30",people:"",blocked:""},
+                    {name:"#5",fulltime:"20",time:"20",people:"",blocked:""},
+                    {name:"#6",fulltime:"10",time:"10",people:"",blocked:""},
+                    {name:"#7",fulltime:"22",time:"22",people:"",blocked:""},
+                    {name:"#8",fulltime:"33",time:"23",people:"",blocked:""},
+                    {name:"#9",fulltime:"44",time:"44",people:"",blocked:""},
+                ],
+                todoset:[
+                    
+                ],
+                progressset:[
+                    
+                ],
+                doneset:[
+                    
+                ],         
+                xuan1:"true",
+                xuan2:"true",
+                event:[
+                    {name:"#999",Promote:"3", postpone:"0",teshu:"0",beizhu:"blablabla"},
+                    {name:"#888",Promote:"0", postpone:"3",teshu:"0",beizhu:"blablabla"},
+                    {name:"#777",Promote:"-3", postpone:"3",teshu:"0",beizhu:"blablabla"},
+                    {name:"#666",Promote:"0", postpone:"3",teshu:"1",beizhu:"blablabla"},
+                    {name:"#555",Promote:"0", postpone:"3",teshu:"2",beizhu:"blablabla"},
+                    {name:"#444",Promote:"0", postpone:"3",teshu:"3",beizhu:"blablabla"},
+                    {name:"#333",Promote:"0", postpone:"3",teshu:"4",beizhu:"blablabla"}
+                ],
+                peoplestatus:[
+                	{number:"1",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""},
+                	{number:"2",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""},
+                	{number:"3",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""},
+                	{number:"4",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""},
+                	{number:"5",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""},
+                	{number:"6",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""},
+                	{number:"7",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""},
+                	{number:"8",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""},
+                	{number:"9",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""},
+                	{number:"10",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""}
+                ]
+            },
+            computed:{
+                /*number:function(){
+                    //if(this.number==""||this.number>this.ngroup)
+                    return 1;
+                    <div class="next step" v-on:click="rolldicestory" v-if="jixuxuan()">choose</div>
+                }*/
+
+
+                
+            },
+            watch:{
+
+            },
+            methods:{
+                chushihua(){
+                    if(this.ngroup=="") return false;
+                    else return true;
+                },
+                jisuantotaltime(){
+                    var sum = 0;
+                    for(var i=0;i<this.todoset.length;i++){
+                        sum = sum+parseInt(this.todoset[i].fulltime);
+                    }
+                    for(var i=0;i<this.progressset.length;i++){
+                        sum = sum+parseInt(this.progressset[i].fulltime);
+                    }
+                    for(var i=0;i<this.doneset.length;i++){
+                        sum = sum+parseInt(this.doneset[i].fulltime);
+                    }
+                    this.totaltime = sum;
+                },
+                jisuanmuqiantime(){
+                    var sum = 0;
+                    for(var i=0;i<this.todoset.length;i++){
+                        sum = sum+parseInt(this.todoset[i].time);
+                    }
+                    for(var i=0;i<this.progressset.length;i++){
+                        sum = sum+parseInt(this.progressset[i].time);
+                    }
+                    this.muqiantime = sum;
+                },
+                indexOf(val,shuzu) { 
+                    for (var i = 0; i < shuzu.length; i++) { 
+                        if (shuzu[i] == val) return i; 
+                    } 
+                    return -1; 
+                },
+                xuantodo(item){
+                    if(this.xuan1=="true"){
+                        this.storyset.splice(this.indexOf(item,this.storyset),1);;
+                        this.todoset.push(item);
+                    }else alert("nope");
+                    this.jisuanmuqiantime();
+                    this.jisuantotaltime();
+                },
+                chooseTR(item){
+                    if(this.xuan2=="true"){
+                        this.todoset.splice(this.indexOf(item,this.todoset),1);;
+                        this.progressset.push(item);
+                        item.people=this.number;
+                        this.number=parseInt(this.number)%this.ngroup+1;
+                        if(this.number>=this.ngroup){
+                            this.number=1;
+                            
+                        }
+                    }else alert("nope");
+                    this.jisuanmuqiantime();
+                    this.jisuantotaltime();
+                },
+                jixuxuan(){
+                    if(this.progressset.length<this.ngroup)
+                        return true;
+                    else{
+                        this.statuskeshi=true;
+                        return false;
+                    }
+                },
+                finish(){//此函数为完成检查
+                	for(var i=0;i=this.progressset.length;i++)//遍历事件
+                    {
+                        if(this.progressset[i].time=="0"&&this.progressset[i].blocked=="false")
+                        {
+                        	this.doneset.push(this.progressset[i]);
+                        	//delete this.progressset[i] in progressset
+                        }
+                    }
+                    //更新burndown
+                },
+                live(item)
+                {
+                	if(parseInt(item.number)<=parseInt(this.number))
+                    {
+        	           return true;
+                    }
+                    else
+                    {
+                       return false;	
+                    }
+                },
+                roll()
+                {
+                	//alert(parseInt(Math.ceil(Math.random()*12)));
+                	var shaizishu;
+                    shaizishu = parseInt(Math.ceil(Math.random()*12));
+                    this.peoplestatus[this.number].dicenumber=shaizishu;
+                    alert(this.peoplestatus[this.number].dicenumber);
+                    //v-if
+                },
+                random()
+                {
+                	alert("event");
+                	var shijianhao;
+                    shijianhao = parseInt(Math.ceil(Math.random()*this.event.length));
+                    this.peoplestatus[this.number].event=this.event[shijianhao].teshu;
+                    this.peoplestatus[this.number].eventvalue=this.event[shijianhao].promote;
+                    alert(this.peoplestatus[this.number]);
+                    //v-if
+                },
+                
+                nextstep()
+                {
+                	alert("next step");
+                	//v-if
+                },
+                rolldicestory(){
+                	//第二个处理如下：
+                	/*
+        	        for(var i=0;i=this.progressset.length;i++)//寻找对应事件
+                    {
+        	        	if(parseInt(this.solution)>0)
+                        {
+                          if(this.progressset[i].blocked=="true")
+                          {
+                        	  this.progressset[i].blocked=="false";
+                        	  this.solution=parseInt(this.solution)-parseInt("1");
+                          }
+                        }
+                    }
+                	//如果最后选择弹出，todo会有概率存在被block的事件，因此也要检查
+        	        for(var i=0;i=this.todoset.length;i++)//寻找对应事件
+                    {
+        	        	if(parseInt(this.solution)>0)
+                        {
+                          if(this.todoset[i].blocked=="true")
+                          {
+                        	  this.todoset[i].blocked=="false";
+                        	  this.solution=parseInt(this.solution)-parseInt("1");
+                          }
+                        }
+                    }*/
+                	//增加中断，等待下一步响应
+                	//wait for next step
+                	//setTimeout(() => this.isHidden = false, 500);
+                    
+                    //rou骰子
+                    var shaizishu;
+                    shaizishu = parseInt(Math.ceil(Math.random()*12));
+                    //选择事件
+                    var shijianhao;
+                    shijianhao = parseInt(Math.ceil(Math.random()*this.event.length));
+                    this.dicevalue = "dice value: "+shaizishu+"event: "+shijianhao;
+                    this.peoplestatus[this.number].number=this.number;
+                    alert(this.peoplestatus[this.number].number);
+                    this.peoplestatus[this.number].dicenumber=shaizishu;
+                    //增加中断，等待下一步响应
+                	//wait for next step
+                	//setTimeout(() => this.isHidden = false, 500);
+                    //处理骰子事件
+                    var tempnumber;
+                    for(var i=0;i=this.progressset.length;i++)//寻找对应事件
+                    {
+                        if(this.progressset[i].people==this.number)
+                        {
+                        	tempnumber=i;
+                        }
+                    }
+                    this.progressset[tempnumber].time=parseInt(this.progressset[tempnumber].time)-parseInt(shaizishu);
+                    alert(this.progressset[tempnumber].time);
+                    //增加中断，等待下一步响应
+                	//wait for next step
+                	console.log("1");
+                    //开始处理事件
+                    //1.时间加减,teshu对应01234，0为时间加减，1为清空，2为还原，3为problem，4为solution
+                    //另外事件不会从事件集中去除
+                    if(this.event[shijianhao].teshu=="0")//promote有正有负，因此一律加即可不考虑加减时间
+                    {
+                    	this.progressset[tempnumber].time=parseInt(this.progressset[tempnumber].time)-parseInt(this.event[shijianhao].promote);
+                        this.finish();
+                    }
+                    if(this.event[shijianhao].teshu=="1")
+                    {
+                    	this.progressset[tempnumber].time=parseInt("0");
+                    	this.finish();
+                    }
+                    if(this.event[shijianhao].teshu=="2")
+                    {
+                    	this.progressset[tempnumber].time=parseInt(this.progressset[tempnumber].fulltime);
+                    }
+                    if(this.event[shijianhao].teshu=="3")
+                    {
+                    	this.progressset[tempnumber].blocked="true";
+                    	if(parseInt(this.solution)>0)
+                        {
+        	               this.progressset[tempnumber].blocked="false";
+        	               this.solution=parseInt(this.solution)-parseInt("1");
+        	               //alert
+                        }
+                    }
+                    if(this.event[shijianhao].teshu=="4")
+                    {
+                    	//第一种处理如下：
+                    	//第一次检查当前集是否存在block
+                    	var t;
+                    	t=0;
+                    	while(t<this.progressset.length)//寻找对应事件
+                        {
+                            if(this.progressset[i].blocked=="true")
+                            {
+                        	   t=this.progressset.length+3;
+                        	   this.progressset[i].blocked=="false"
+                            }
+                            else t=t+1;
+                        }
+                    	//搜完了没有block
+                    	if(t!=this.progressset.length+3)
+                    	{
+                    		this.solution=parseInt(this.solution)+parseInt("1");
+                    	}
+                    }
+                    alert(this.event[shijianhao].teshu);
+                    //增加中断，等待下一步响应
+                	//wait for next step
+                	//setTimeout(() => this.isHidden = false, 500);
+                    /*下面是一堆if(){}判断这个事件的效果，要用到以下几个参数：
+                     1：骰子序号 shaizishu
+                     2：事件 this.event[shijianhao]
+                     3：哪个人的抽卡结果 this.number (其实这个应该放在最先)
+                    */
+                    //我正在考虑是否要在这里把progress的事件给弹出回到tudo，亦或者保留在progress但是这样的话选择story那里要改(todo和progress)
+                    //弹出
+                    //this.todoset.push(this.progressset[tempnumber])
+                    //delete this.progressset[tempnumber] from progressset
+                    
+                    this.number=parseInt(this.number)%this.ngroup+1;//轮次变动
+                    //此时开始更新图
+                }
+            }
+        });
+    }
+</script>
+
 </html>
