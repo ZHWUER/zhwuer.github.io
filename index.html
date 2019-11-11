@@ -113,13 +113,22 @@ div.story {
     left:1100px;
     top:10px;
 }
-
+#divContainer{  
+                margin-top: 20px;  
+                text-align: center;  
+            }  
+            #cv{  
+                width: 300px;  
+                height: 200px;  
+                border-bottom: 2px solid #000;  
+                border-left: 2px solid #000;  
+            }  
 </style>
 <body>
 
 <div class="wrapper">
 
-    <div class="groupno">number of group:{{ngroup}}</div>
+    <div class="groupno">number of group:{{ngroup}} day:{{day}}  spirit:{{spirit}}</div>
     <div class="inputnumber">
             input number of team
         <input type="text" v-model="ngroup">
@@ -140,7 +149,7 @@ div.story {
 
     <div class="inprog">
         <div class="title">PROGRESS</div>
-        <div class="story" v-for="item in progressset" v-if="chushihua()">story:{{item.name}}   time:{{item.time}}/{{item.fulltime}}   head:{{item.people}}</div>
+        <div class="story" v-for="item in progressset" v-if="chushihua()">story:{{item.name}}   time:{{item.time}}/{{item.fulltime}}   head:{{item.people}} block:{{item.blocked}}</div>
     </div>
 
     <div class="done">
@@ -151,49 +160,67 @@ div.story {
     <div class="status">
         <div class="title">STATUS</div>
         <div class="title1">turn：number {{number}}'s turn</div>
-        <div class="title1" v-for="item in peoplestatus"> people:{{item.number}} dicenumber:{{item.dicenumber}} story:{{item.story}}</div>
-        <div class="diceblock" v-if="statuskeshi" v-on:click="rolldicestory()">{{dicevalue}}</div>
+        <div class="title1" >dice:{{currentdice}}  </div>
+        <div class="title1" >draw:{{currentdrawteshu}}//{{currentdrawpromote}}//{{currentdrawdis}}  </div>
+        <div class="title1" >story_lock_count:{{currentlock}}</div>
+        <div class="title1" >solution:{{solution}} </div>
+    
     </div>
 
     <div class="button">
         <div class="title">BUTTON</div>
-        <div class="diceblock" v-on:click="roll()">roll dices</div>
-        <div class="diceblock" v-on:click="random()">random events</div>
-        <div class="diceblock" v-on:click="nextstep()">next</div>
+        <div class="diceblock" v-if="rl"  v-on:click="roll()">roll dices</div>
+        <div class="diceblock"  v-if="ra" v-on:click="random()">random events</div>
+        <div class="diceblock" v-if="ns" v-on:click="nextstep()">next</div>
     </div>
 
     <div class="bdctitle">BURNDOWNCHART</div>
-    <div class="bdc">{{muqiantime}}/{{totaltime}}</div>
+    <div class="bdc" v-on="jisuanmuqiantime()">{{muqiantime}}/{{totaltime}}</div>
+        </div>  
+    
+    
 
 </div>
 
 </body>
 
 
-<script src="/pro/node_modules/vue/dist/vue.js"></script>
+
+<script src="F:\pro\pro\node_modules\vue\dist\vue.js"></script>
 <script type="text/javascript">
     window.onload = function(){
+    	
+    	
         let vm=new Vue({
             el:".wrapper",
             data:{
-                number:4,
+                number:1,
                 ngroup:"",
                 totaltime:"",
                 muqiantime:"",
-                statuskeshi:false,
+                statuskeshi:true,
                 dicevalue:"roll a dice choose a event!",
-                currentspirit:1,
+                currentdice:"0",
+                currentdrawteshu:0,
+                currentdrawpromote:0,
+                currentdrawdis:0,
+                currentlock:0,
                 solution:"0",
+                day:1,
+                spirit:1,
+                rl:false,
+                ra:false,
+                ns:false,
                 storyset:[
-                    {name:"#1",fulltime:"60",time:"60",people:"",blocked:""},
-                    {name:"#2",fulltime:"50",time:"50",people:"",blocked:""},
-                    {name:"#3",fulltime:"40",time:"40",people:"",blocked:""},
-                    {name:"#4",fulltime:"30",time:"30",people:"",blocked:""},
-                    {name:"#5",fulltime:"20",time:"20",people:"",blocked:""},
-                    {name:"#6",fulltime:"10",time:"10",people:"",blocked:""},
-                    {name:"#7",fulltime:"22",time:"22",people:"",blocked:""},
-                    {name:"#8",fulltime:"33",time:"23",people:"",blocked:""},
-                    {name:"#9",fulltime:"44",time:"44",people:"",blocked:""},
+                    {name:"#1",fulltime:"60",time:"60",people:"0",blocked:"false"},
+                    {name:"#2",fulltime:"50",time:"50",people:"0",blocked:"false"},
+                    {name:"#3",fulltime:"40",time:"40",people:"0",blocked:"false"},
+                    {name:"#4",fulltime:"30",time:"30",people:"0",blocked:"false"},
+                    {name:"#5",fulltime:"20",time:"20",people:"0",blocked:"false"},
+                    {name:"#6",fulltime:"10",time:"10",people:"0",blocked:"false"},
+                    {name:"#7",fulltime:"22",time:"22",people:"0",blocked:"false"},
+                    {name:"#8",fulltime:"33",time:"23",people:"0",blocked:"false"},
+                    {name:"#9",fulltime:"44",time:"44",people:"0",blocked:"false"},
                 ],
                 todoset:[
                     
@@ -207,13 +234,13 @@ div.story {
                 xuan1:"true",
                 xuan2:"true",
                 event:[
-                    {name:"#999",Promote:"3", postpone:"0",teshu:"0",beizhu:"blablabla"},
-                    {name:"#888",Promote:"0", postpone:"3",teshu:"0",beizhu:"blablabla"},
-                    {name:"#777",Promote:"-3", postpone:"3",teshu:"0",beizhu:"blablabla"},
-                    {name:"#666",Promote:"0", postpone:"3",teshu:"1",beizhu:"blablabla"},
-                    {name:"#555",Promote:"0", postpone:"3",teshu:"2",beizhu:"blablabla"},
-                    {name:"#444",Promote:"0", postpone:"3",teshu:"3",beizhu:"blablabla"},
-                    {name:"#333",Promote:"0", postpone:"3",teshu:"4",beizhu:"blablabla"}
+                    {name:"#999",Promote:"3", postpone:"0",teshu:"0",beizhu:"plus"},
+                    {name:"#888",Promote:"0", postpone:"3",teshu:"0",beizhu:"nothing"},
+                    {name:"#777",Promote:"-3", postpone:"3",teshu:"0",beizhu:"minus"},
+                    {name:"#666",Promote:"0", postpone:"3",teshu:"1",beizhu:"zero"},
+                    {name:"#555",Promote:"0", postpone:"3",teshu:"2",beizhu:"refill"},
+                    {name:"#444",Promote:"0", postpone:"3",teshu:"3",beizhu:"lock"},
+                    {name:"#333",Promote:"0", postpone:"3",teshu:"4",beizhu:"solution"}
                 ],
                 peoplestatus:[
                 	{number:"1",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""},
@@ -226,7 +253,8 @@ div.story {
                 	{number:"8",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""},
                 	{number:"9",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""},
                 	{number:"10",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""}
-                ]
+                ],
+                
             },
             computed:{
                 /*number:function(){
@@ -277,7 +305,7 @@ div.story {
                 },
                 xuantodo(item){
                     if(this.xuan1=="true"){
-                        this.storyset.splice(this.indexOf(item,this.storyset),1);;
+                        this.storyset.splice(this.indexOf(item,this.storyset),1);
                         this.todoset.push(item);
                     }else alert("nope");
                     this.jisuanmuqiantime();
@@ -285,11 +313,18 @@ div.story {
                 },
                 chooseTR(item){
                     if(this.xuan2=="true"){
-                        this.todoset.splice(this.indexOf(item,this.todoset),1);;
+                        this.todoset.splice(this.indexOf(item,this.todoset),1);
                         this.progressset.push(item);
                         item.people=this.number;
+                        for(var x=0;x<this.peoplestatus.length;x++)
+                        	{
+                        	   if(item.people==this.peoplestatus[x].name)
+                        		   {
+                        		      this.peoplestatus[x].story=item.name;
+                        		   }
+                        	}
                         this.number=parseInt(this.number)%this.ngroup+1;
-                        if(this.number>=this.ngroup){
+                        if(this.number>this.ngroup){
                             this.number=1;
                             
                         }
@@ -301,20 +336,26 @@ div.story {
                     if(this.progressset.length<this.ngroup)
                         return true;
                     else{
-                        this.statuskeshi=true;
+                        
+                        if(this.statuskeshi==true)
+                        	this.rl=true;
+                            this.statuskeshi=false;
                         return false;
                     }
                 },
                 finish(){//此函数为完成检查
-                	for(var i=0;i=this.progressset.length;i++)//遍历事件
+                	for(var i=0;i<this.progressset.length;i++)//遍历事件
                     {
                         if(this.progressset[i].time=="0"&&this.progressset[i].blocked=="false")
                         {
                         	this.doneset.push(this.progressset[i]);
+                        	this.progressset.splice(this.indexOf(this.progressset[i],this.progressset),1);
                         	//delete this.progressset[i] in progressset
+                        	alert("finish"+this.progressset[i]);
                         }
                     }
                     //更新burndown
+                    //this.jisuanmuqiantime();
                 },
                 live(item)
                 {
@@ -332,151 +373,162 @@ div.story {
                 	//alert(parseInt(Math.ceil(Math.random()*12)));
                 	var shaizishu;
                     shaizishu = parseInt(Math.ceil(Math.random()*12));
-                    this.peoplestatus[this.number].dicenumber=shaizishu;
-                    alert(this.peoplestatus[this.number].dicenumber);
+                    this.currentdice=shaizishu;
+                    this.peoplestatus[this.number-1].dicenumber=shaizishu;
+                    alert(this.peoplestatus[this.number-1].dicenumber);
+                    var tempnumber;
+                    
+                    for(var i=0;i<this.progressset.length;i++)//寻找对应事件
+                    {
+                        if(parseInt(this.progressset[i].people)==parseInt(this.number))
+                        {
+                        	tempnumber=i;
+                        }
+                    }
+                    if(parseInt(this.progressset[tempnumber].time)>parseInt(shaizishu))
+                      this.progressset[tempnumber].time=parseInt(this.progressset[tempnumber].time)-parseInt(shaizishu);
+                    else
+                      this.progressset[tempnumber].time=0;
+                    this.ra=true;
+                    this.rl=false;
+                    
+                    //alert(this.progressset[tempnumber].time);                    
                     //v-if
                 },
                 random()
                 {
-                	alert("event");
-                	var shijianhao;
-                    shijianhao = parseInt(Math.ceil(Math.random()*this.event.length));
-                    this.peoplestatus[this.number].event=this.event[shijianhao].teshu;
-                    this.peoplestatus[this.number].eventvalue=this.event[shijianhao].promote;
-                    alert(this.peoplestatus[this.number]);
+                	var tempnumber;
+                	for(var i=0;i<this.progressset.length;i++)//寻找对应事件
+                    {
+                        if(parseInt(this.progressset[i].people)==parseInt(this.number))
+                        {
+                        	tempnumber=i;    
+                        }
+                    }
+                	 var shijianhao;
+                     shijianhao = parseInt(Math.ceil(Math.random()*this.event.length));
+                     this.currentdrawteshu=this.event[shijianhao-1].teshu;
+                     this.currentdrawpromote=this.event[shijianhao-1].Promote;
+                     this.currentdrawdis=this.event[shijianhao-1].beizhu;
+                     //alert(shijianhao);
+                     alert("dangqianshijianshi "+this.event[shijianhao-1].teshu+"   "+this.event[shijianhao-1].beizhu);
+                     
+                     if(this.event[shijianhao-1].teshu=="0")//promote有正有负，因此一律加即可不考虑加减时间
+                     {
+                     	this.progressset[tempnumber].time=parseInt(this.progressset[tempnumber].time)-parseInt(this.event[shijianhao-1].Promote);
+                        this.finish();
+                        alert(this.progressset[tempnumber].time);
+                     }
+                     
+                     if(this.event[shijianhao-1].teshu=="1")
+                     {
+                     	this.progressset[tempnumber].time=parseInt("0");
+                     	this.finish();
+                     	//alert(this.progressset[tempnumber].time);
+                     }
+                     
+                     if(this.event[shijianhao-1].teshu=="2")
+                     {
+                     	this.progressset[tempnumber].time=parseInt(this.progressset[tempnumber].fulltime);
+                     	this.finish();
+                     	alert(this.progressset[tempnumber].time);
+                     }
+                     if(this.event[shijianhao-1].teshu=="3"&&this.progressset[tempnumber].blocked=="false")
+                     {
+                     	this.progressset[tempnumber].blocked="true";
+                     	this.currentlock=parseInt(this.currentlock)+1;
+                     	if(parseInt(this.solution)>0)
+                         {
+         	               this.progressset[tempnumber].blocked="false";
+         	               this.solution=parseInt(this.solution)-parseInt("1");
+         	               //alert
+                         }
+                     	
+                     	this.finish();
+                     	alert(this.progressset[tempnumber].blocked);
+                     }
+                     
+                     if(this.event[shijianhao-1].teshu=="4")
+                     {
+                     	//第一种处理如下：
+                     	//第一次检查当前集是否存在block
+                     	var t;
+                     	t=0;
+                     	while(t<this.progressset.length)//寻找对应事件
+                         {
+                             if(this.progressset[t].blocked=="true")
+                             {
+                               this.progressset[t].blocked=="false"
+                         	   t=this.progressset.length+3;
+                               this.currentlock=parseInt(this.currentlock)-1;
+                             }
+                             else t=t+1;
+                         }
+                     	//搜完了没有block
+                     	if(t!=this.progressset.length+3)
+                     	{
+                     		this.solution=parseInt(this.solution)+parseInt("1");
+                     	}
+                     	alert(this.solution);
+                     }
+                     this.ns=true;
+                     this.ra=false;
+                     
                     //v-if
                 },
                 
                 nextstep()
                 {
+                	var t;
+                 	t=0;
+                 	while(t<this.progressset.length)//寻找对应事件
+                     {
+                         if(this.progressset[t].blocked=="true")
+                         {
+                           this.progressset[t].blocked=="false"
+                     	   t=this.progressset.length+3;
+                           this.currentlock=parseInt(this.currentlock)-1;
+                         }
+                         else t=t+1;
+                     }
                 	alert("next step");
+                	if(parseInt(this.number)<=this.ngroup)
+                	   this.number=parseInt(this.number)%this.ngroup+1;
+                	else
+                	{
+                		this.number=parseInt(this.number)%this.ngroup+1;
+                		this.day=parseInt(this.day)+1;
+                		alert("day= "+this.day);
+                	}
+                	if(this.day==3)
+                	{
+                		this.number=parseInt(this.number)%this.ngroup+1;
+                		this.day=1;
+                		this.spirit=parseInt(this.spirit)+1;
+                		alert("spirit= "+this.spirit);
+                		for(var x=0;x<this.progressset.length;x++)
+                		  this.todoset.push(this.progressset[x]);
+                		this.progressset.splice(0,this.progressset.length);
+                	}
+                	else
+                		this.day=parseInt(this.day)+1;
+                	this.rl=true;
+                	this.ns=false;
+                	if(this.spirit>3)
+                	{
+                		alert("game over");
+                		this.rl=false;
+                		this.ra=false;
+                		this.ns=false;
+                	}
+                	
                 	//v-if
-                },
-                rolldicestory(){
-                	//第二个处理如下：
-                	/*
-        	        for(var i=0;i=this.progressset.length;i++)//寻找对应事件
-                    {
-        	        	if(parseInt(this.solution)>0)
-                        {
-                          if(this.progressset[i].blocked=="true")
-                          {
-                        	  this.progressset[i].blocked=="false";
-                        	  this.solution=parseInt(this.solution)-parseInt("1");
-                          }
-                        }
-                    }
-                	//如果最后选择弹出，todo会有概率存在被block的事件，因此也要检查
-        	        for(var i=0;i=this.todoset.length;i++)//寻找对应事件
-                    {
-        	        	if(parseInt(this.solution)>0)
-                        {
-                          if(this.todoset[i].blocked=="true")
-                          {
-                        	  this.todoset[i].blocked=="false";
-                        	  this.solution=parseInt(this.solution)-parseInt("1");
-                          }
-                        }
-                    }*/
-                	//增加中断，等待下一步响应
-                	//wait for next step
-                	//setTimeout(() => this.isHidden = false, 500);
-                    
-                    //rou骰子
-                    var shaizishu;
-                    shaizishu = parseInt(Math.ceil(Math.random()*12));
-                    //选择事件
-                    var shijianhao;
-                    shijianhao = parseInt(Math.ceil(Math.random()*this.event.length));
-                    this.dicevalue = "dice value: "+shaizishu+"event: "+shijianhao;
-                    this.peoplestatus[this.number].number=this.number;
-                    alert(this.peoplestatus[this.number].number);
-                    this.peoplestatus[this.number].dicenumber=shaizishu;
-                    //增加中断，等待下一步响应
-                	//wait for next step
-                	//setTimeout(() => this.isHidden = false, 500);
-                    //处理骰子事件
-                    var tempnumber;
-                    for(var i=0;i=this.progressset.length;i++)//寻找对应事件
-                    {
-                        if(this.progressset[i].people==this.number)
-                        {
-                        	tempnumber=i;
-                        }
-                    }
-                    this.progressset[tempnumber].time=parseInt(this.progressset[tempnumber].time)-parseInt(shaizishu);
-                    alert(this.progressset[tempnumber].time);
-                    //增加中断，等待下一步响应
-                	//wait for next step
-                	console.log("1");
-                    //开始处理事件
-                    //1.时间加减,teshu对应01234，0为时间加减，1为清空，2为还原，3为problem，4为solution
-                    //另外事件不会从事件集中去除
-                    if(this.event[shijianhao].teshu=="0")//promote有正有负，因此一律加即可不考虑加减时间
-                    {
-                    	this.progressset[tempnumber].time=parseInt(this.progressset[tempnumber].time)-parseInt(this.event[shijianhao].promote);
-                        this.finish();
-                    }
-                    if(this.event[shijianhao].teshu=="1")
-                    {
-                    	this.progressset[tempnumber].time=parseInt("0");
-                    	this.finish();
-                    }
-                    if(this.event[shijianhao].teshu=="2")
-                    {
-                    	this.progressset[tempnumber].time=parseInt(this.progressset[tempnumber].fulltime);
-                    }
-                    if(this.event[shijianhao].teshu=="3")
-                    {
-                    	this.progressset[tempnumber].blocked="true";
-                    	if(parseInt(this.solution)>0)
-                        {
-        	               this.progressset[tempnumber].blocked="false";
-        	               this.solution=parseInt(this.solution)-parseInt("1");
-        	               //alert
-                        }
-                    }
-                    if(this.event[shijianhao].teshu=="4")
-                    {
-                    	//第一种处理如下：
-                    	//第一次检查当前集是否存在block
-                    	var t;
-                    	t=0;
-                    	while(t<this.progressset.length)//寻找对应事件
-                        {
-                            if(this.progressset[i].blocked=="true")
-                            {
-                        	   t=this.progressset.length+3;
-                        	   this.progressset[i].blocked=="false"
-                            }
-                            else t=t+1;
-                        }
-                    	//搜完了没有block
-                    	if(t!=this.progressset.length+3)
-                    	{
-                    		this.solution=parseInt(this.solution)+parseInt("1");
-                    	}
-                    }
-                    alert(this.event[shijianhao].teshu);
-                    //增加中断，等待下一步响应
-                	//wait for next step
-                	//setTimeout(() => this.isHidden = false, 500);
-                    /*下面是一堆if(){}判断这个事件的效果，要用到以下几个参数：
-                     1：骰子序号 shaizishu
-                     2：事件 this.event[shijianhao]
-                     3：哪个人的抽卡结果 this.number (其实这个应该放在最先)
-                    */
-                    //我正在考虑是否要在这里把progress的事件给弹出回到tudo，亦或者保留在progress但是这样的话选择story那里要改(todo和progress)
-                    //弹出
-                    //this.todoset.push(this.progressset[tempnumber])
-                    //delete this.progressset[tempnumber] from progressset
-                    
-                    this.number=parseInt(this.number)%this.ngroup+1;//轮次变动
-                    //此时开始更新图
                 }
+                
             }
         });
     }
+    
 </script>
 
 </html>
