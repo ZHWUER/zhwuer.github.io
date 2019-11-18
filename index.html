@@ -276,6 +276,10 @@ div.story {
                 },
                 jisuantotaltime(){
                     var sum = 0;
+                    for(var i=0;i<this.storyset.length;i++)
+                    {
+                        sum = sum+parseInt(this.storyset[i].fulltime);
+                    }
                     for(var i=0;i<this.todoset.length;i++){
                         sum = sum+parseInt(this.todoset[i].fulltime);
                     }
