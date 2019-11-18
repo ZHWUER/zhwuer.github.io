@@ -1,538 +1,777 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Scrum Cards Game</title>
 </head>
 
 <style>
+    .wrapper>div {
+        border: 1px solid rgba(86, 61, 124, .2);
+        border-radius: 1px;
+        background-color: rgba(86, 61, 124, .15);
+        padding: 1em;
+    }
 
-.wrapper > div {
-    border: 1px solid rgba(86,61,124,.2);
-    border-radius: 1px;
-    background-color: rgba(86,61,124,.15);
-    padding: 1em;
-}
+    .wrapper {
+        display: grid;
 
-.wrapper {
-    display: grid;
-    
-    grid-template-columns: repeat(12, 1fr);
-    grid-gap: 0px;
-    grid-auto-rows: minmax(60px, auto);
-}
-.groupno {
-    grid-column: 1 / 13;
-    grid-row: 1 ;
-    text-align: center;
-}
-.backlog {
-    grid-column: 1 / 3;
-    grid-row: 2 / 5;
-}
-.todo {
-    grid-column: 3 / 5;
-    grid-row: 2 / 5;
-}
-.inprog {
-    grid-column: 5 / 7;
-    grid-row: 2 / 5;
-}
-.done {
-    grid-column: 7 / 9;
-    grid-row: 2 / 5;
-}
-.status {
-    grid-column: 9 / 11;
-    grid-row: 2 / 5;
-}
-.button {
-    grid-column: 11 / 13;
-    grid-row: 2 / 5;
-}
-.bdctitle {
-    grid-column: 1 / 13;
-    text-align: center;
-}
-.bdc {
-    grid-column: 1 / 13;
-    grid-row: span 3;
-}
+        grid-template-columns: repeat(12, 1fr);
+        grid-gap: 0px;
+        grid-auto-rows: minmax(60px, auto);
+    }
 
-div.title {
-    text-align: center;
-}
-.title1{
-    text-align: center;
-    font-size: 18px;
-}
-div.story {
-    background-color: rgba(118, 129, 126, 0.705);
-    border-radius:5px;
-    padding: 5px;
-    text-align: center;
-    margin: 5px;
-    cursor:pointer;   
-}
-.story:hover{
-    background-color: rgba(14, 26, 22, 0.705);
-    margin: 8px;
-}
-.diceblock{
-    background-color: rgba(118, 129, 126, 0.705);
-    border-radius:5px;
-    padding: 5px;
-    text-align: center;
-    margin: 5px;
-    cursor:pointer;  
-}
-.diceblock:hover{
-    background-color: rgba(14, 26, 22, 0.705);
-    margin: 8px;
-}
-.xuanxiang{
-    background-color: rgba(118, 129, 126, 0.705);
-    border-radius:5px;
-    padding: 5px;
-    text-align: center;
-    margin: 2px;
-    cursor:pointer;
-}
-.xuanxiang:hover{
-    background-color: rgba(14, 26, 22, 0.705);
-}
-.story2{
-    background-color: rgba(118, 129, 126, 0.705);
-    border-radius:5px;
-    padding: 5px;
-    text-align: center;
-    margin: 5px;
-}
-.inputnumber{
-    position: absolute;
-    left:1100px;
-    top:10px;
-}
-#divContainer{  
-                margin-top: 20px;  
-                text-align: center;  
-            }  
-            #cv{  
-                width: 300px;  
-                height: 200px;  
-                border-bottom: 2px solid #000;  
-                border-left: 2px solid #000;  
-            }  
+    .groupno {
+        grid-column: 1 / 13;
+        grid-row: 1;
+        text-align: center;
+    }
+
+    .inputnumber {
+        grid-column: 1 / 5;
+        grid-row: 2;
+        text-align: left;
+    }
+
+    .sprint {
+        grid-column: 5 / 7;
+        grid-row: 2;
+        text-align: left;
+    }
+
+    .day {
+        grid-column: 7 / 9;
+        grid-row: 2;
+        text-align: left;
+    }
+
+    .member {
+        grid-column: 9 / 11;
+        grid-row: 2;
+        text-align: left;
+    }
+
+    .cur_story {
+        grid-column: 11 / 13;
+        grid-row: 2;
+        text-align: left;
+    }
+
+    .backlog {
+        grid-column: 1 / 3;
+        grid-row: 3 / 5;
+    }
+
+    .todo {
+        grid-column: 3 / 5;
+        grid-row: 3 / 5;
+    }
+
+    .inprog {
+        grid-column: 5 / 7;
+        grid-row: 3 / 5;
+    }
+
+    .done {
+        grid-column: 7 / 9;
+        grid-row: 3 / 5;
+    }
+
+    .status {
+        grid-column: 11 / 13;
+        grid-row: 3 / 5;
+    }
+
+    .button {
+        grid-column: 9 / 11;
+        grid-row: 3 / 5;
+    }
+
+    .bdctitle {
+        grid-column: 1 / 13;
+        text-align: center;
+    }
+
+    .bdc {
+        grid-column: 1 / 13;
+        grid-row: span 3;
+    }
+
+    div.title {
+        text-align: center;
+    }
+
+    .title1 {
+        text-align: center;
+        font-size: 18px;
+    }
+
+    div.story {
+        background-color: rgba(118, 129, 126, 0.705);
+        border-radius: 5px;
+        padding: 5px;
+        text-align: center;
+        margin: 5px;
+        cursor: pointer;
+    }
+
+    .story:hover {
+        background-color: rgba(14, 26, 22, 0.705);
+        margin: 8px;
+    }
+
+    .diceblock {
+        background-color: rgba(118, 129, 126, 0.705);
+        border-radius: 5px;
+        padding: 5px;
+        text-align: center;
+        margin: 5px;
+        cursor: pointer;
+    }
+
+    .diceblock:hover {
+        background-color: rgba(14, 26, 22, 0.705);
+        margin: 8px;
+    }
+
+    .xuanxiang {
+        background-color: rgba(118, 129, 126, 0.705);
+        border-radius: 5px;
+        padding: 5px;
+        text-align: center;
+        margin: 2px;
+        cursor: pointer;
+    }
+
+    .xuanxiang:hover {
+        background-color: rgba(14, 26, 22, 0.705);
+    }
+
+    .story2 {
+        background-color: rgba(118, 129, 126, 0.705);
+        border-radius: 5px;
+        padding: 5px;
+        text-align: center;
+        margin: 5px;
+    }
 </style>
-<body>
 
-<div class="wrapper">
+<body onload='init()'>
 
-    <div class="groupno">number of group:{{ngroup}} day:{{day}}  spirit:{{spirit}}</div>
-    <div class="inputnumber">
-            input number of team
-        <input type="text" v-model="ngroup">
-    </div>
+    <div class="wrapper">
 
-    <div class="backlog">
-        <div class="title">BACKLOG</div>
-        <div class="story" v-for="item in storyset" v-if="chushihua()" v-on:click="xuantodo(item)">story:{{item.name}}  fulltime:{{item.fulltime}}</div>
-    </div>
 
-    <div class="todo">
-        <div class="title">TODO</div>
-        <div class="story2" v-for="item in todoset" v-if="chushihua()">
-            story:{{item.name}}   time:{{item.time}}/{{item.fulltime}}
-            <div class="xuanxiang" v-on:click="chooseTR(item)" v-if="jixuxuan()">choose</div>
+        <div class="groupno">Group No. : {{groupno}}</div>
+
+
+        <div class="inputnumber">
+            Input Number of Members 
+            <input type="text":disabled="confirm_flag" v-model="ngroup" size="5"/>
+            <!-- <button v-on:click="!(confirm_flag) && confirm()" >Confirm</button> -->
+            <input type="button":disabled="confirm_flag" v-on:click="!(confirm_flag) && confirm()" value="Confirm" />
         </div>
+
+        <div class="sprint">Sprint: {{sprint}}</div>
+
+        <div class="day">Day: {{day}}</div>
+
+        <div class="member">Member: {{member}}</div>
+
+        <div class="cur_story">Story: {{currentstory.name}}</div>
+
+        <div class="backlog">
+            <div class="title">BACKLOG</div>
+            <div class="story2" v-for="item in storyset" v-if="start">
+                story:{{item.name}} ({{item.time}}/{{item.fulltime}})
+                <div class="xuanxiang" v-on:click="xuantodo(item)" v-if="backlog_flag">choose</div>
+            </div>
+            <div class="diceblock" v-if="start && backlog_flag" v-on:click="done()">Done</div>
+        </div>
+
+        <div class="todo">
+            <div class="title">TODO</div>
+            <div class="story2" v-for="item in todoset" v-if="start">
+                story:{{item.name}} ({{item.time}}/{{item.fulltime}})
+                <div class="xuanxiang" v-on:click="chooseTR(item)" v-if="!(item.blocked) && todo_flag">choose</div>
+            </div>
+        </div>
+
+        <div class="inprog">
+            <div class="title">PROGRESS</div>
+            <div class="story2" v-for="item in progressset" v-if="start">
+                story:{{item.name}} ({{item.time}}/{{item.fulltime}}) Member:{{item.owner}} blocked:{{item.blocked}}
+                <div class="xuanxiang" v-on:click="mapping(item)" v-if="!(item.blocked) && todo_flag">choose</div>
+            </div>
+
+        </div>
+
+        <div class="done">
+            <div class="title">DONE</div>
+            <div class="story2" v-for="item in doneset" v-if="start">story:{{item.name}}
+                time:{{item.time}}/{{item.fulltime}}</div>
+        </div>
+
+        <div class="button">
+            <div class="title">BUTTON</div>
+            <!--  <div class="diceblock" v-on:click="rolldice_flag && roll()">Roll dices</div>
+            <div class="diceblock" v-on:click="drawcard_flag && draw()">Draw Card</div> -->
+            <div class="diceblock" v-on:click="step()" v-if="step_flag">{{step_value}}</div>
+        </div>
+
+        <div class="status">
+            <div class="title">STATUS</div>
+            <div> Story_lock_count = {{story_lock_count}}</div>
+            <div> Solution_count = {{solution_count}}</div>
+        </div>
+
+        <div class="bdctitle">BURNDOWNCHART</div>
+        <!-- <div class="bdc">{{lefthours}}/{{totalhours}}</div> -->
+        <div v-for="item in bdc_array" v-if="start">story_left_hour:{{item}} </div>
+
     </div>
-
-    <div class="inprog">
-        <div class="title">PROGRESS</div>
-        <div class="story" v-for="item in progressset" v-if="chushihua()">story:{{item.name}}   time:{{item.time}}/{{item.fulltime}}   head:{{item.people}} block:{{item.blocked}}</div>
-    </div>
-
-    <div class="done">
-        <div class="title">DONE</div>
-        <div class="story" v-for="item in doneset" v-if="chushihua()">story:{{item.name}}  time:{{item.time}}/{{item.fulltime}}</div>
-    </div>
-
-    <div class="status">
-        <div class="title">STATUS</div>
-        <div class="title1">turn：number {{number}}'s turn</div>
-        <div class="title1" >dice:{{currentdice}}  </div>
-        <div class="title1" >draw:{{currentdrawteshu}}//{{currentdrawpromote}}//{{currentdrawdis}}  </div>
-        <div class="title1" >story_lock_count:{{currentlock}}</div>
-        <div class="title1" >solution:{{solution}} </div>
-    
-    </div>
-
-    <div class="button">
-        <div class="title">BUTTON</div>
-        <div class="diceblock" v-if="rl"  v-on:click="roll()">roll dices</div>
-        <div class="diceblock"  v-if="ra" v-on:click="random()">random events</div>
-        <div class="diceblock" v-if="ns" v-on:click="nextstep()">next</div>
-    </div>
-
-    <div class="bdctitle">BURNDOWNCHART</div>
-    <div class="bdc" v-on="jisuanmuqiantime()">{{muqiantime}}/{{totaltime}}</div>
-        </div>  
-    
-    
-
-</div>
 
 </body>
 
 
-
 <script src=".\pro\node_modules\vue\dist\vue.js"></script>
 <script type="text/javascript">
-    window.onload = function(){
-    	
-    	
-        let vm=new Vue({
-            el:".wrapper",
-            data:{
-                number:1,
-                ngroup:"",
-                totaltime:"",
-                muqiantime:"",
-                statuskeshi:true,
-                dicevalue:"roll a dice choose a event!",
-                currentdice:"0",
-                currentdrawteshu:0,
-                currentdrawpromote:0,
-                currentdrawdis:0,
-                currentlock:0,
-                solution:"0",
-                day:1,
-                spirit:1,
-                rl:false,
-                ra:false,
-                ns:false,
-                storyset:[
-                    {name:"#1",fulltime:"60",time:"60",people:"0",blocked:"false"},
-                    {name:"#2",fulltime:"50",time:"50",people:"0",blocked:"false"},
-                    {name:"#3",fulltime:"40",time:"40",people:"0",blocked:"false"},
-                    {name:"#4",fulltime:"30",time:"30",people:"0",blocked:"false"},
-                    {name:"#5",fulltime:"20",time:"20",people:"0",blocked:"false"},
-                    {name:"#6",fulltime:"10",time:"10",people:"0",blocked:"false"},
-                    {name:"#7",fulltime:"22",time:"22",people:"0",blocked:"false"},
-                    {name:"#8",fulltime:"33",time:"23",people:"0",blocked:"false"},
-                    {name:"#9",fulltime:"44",time:"44",people:"0",blocked:"false"},
-                ],
-                todoset:[
-                    
-                ],
-                progressset:[
-                    
-                ],
-                doneset:[
-                    
-                ],         
-                xuan1:"true",
-                xuan2:"true",
-                event:[
-                    {name:"#999",Promote:"3", postpone:"0",teshu:"0",beizhu:"plus"},
-                    {name:"#888",Promote:"0", postpone:"3",teshu:"0",beizhu:"nothing"},
-                    {name:"#777",Promote:"-3", postpone:"3",teshu:"0",beizhu:"minus"},
-                    {name:"#666",Promote:"0", postpone:"3",teshu:"1",beizhu:"zero"},
-                    {name:"#555",Promote:"0", postpone:"3",teshu:"2",beizhu:"refill"},
-                    {name:"#444",Promote:"0", postpone:"3",teshu:"3",beizhu:"lock"},
-                    {name:"#333",Promote:"0", postpone:"3",teshu:"4",beizhu:"solution"}
-                ],
-                peoplestatus:[
-                	{number:"1",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""},
-                	{number:"2",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""},
-                	{number:"3",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""},
-                	{number:"4",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""},
-                	{number:"5",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""},
-                	{number:"6",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""},
-                	{number:"7",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""},
-                	{number:"8",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""},
-                	{number:"9",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""},
-                	{number:"10",dicenumber:"",story:"",isskip:false,event:"",eventvalue:""}
-                ],
-                
-            },
-            computed:{
-                /*number:function(){
-                    //if(this.number==""||this.number>this.ngroup)
-                    return 1;
-                    <div class="next step" v-on:click="rolldicestory" v-if="jixuxuan()">choose</div>
-                }*/
+    function init(){
+        
+    }
+    window.onload = function () {
+        //初始化group No.
+        let vm = new Vue({
+            el: ".wrapper",
+            data: {
+                start: false,
+                sprint: 1,
+                SPRINT_MAX: 3,
+                day: 1,
+                DAY_MAX: 3,
+                member: 1,
+                ngroup: "",
+                groupno:0,
+
+                bdc_array: [],
+
+                currentstory: "",
+                dicenumber: 0,
+                current_card: "",
+                totalhours: 0,
+                lefthours: 0,
+
+                confirm_flag: false,
+                backlog_flag: true,
+                todo_flag: false,
+                storyclear: false,
+                rolldice_flag: false,
+                drawcard_flag: false,
+                step_flag: false,
+
+                story_lock_count: "0",
+                solution_count: "0",
 
 
-                
-            },
-            watch:{
+                step_value: "Roll Dice",
 
-            },
-            methods:{
-                chushihua(){
-                    if(this.ngroup=="") return false;
-                    else return true;
-                },
-                jisuantotaltime(){
-                    var sum = 0;
-                    for(var i=0;i<this.storyset.length;i++)
+
+
+                storyset: [{
+                        id: 0,
+                        name: "#1",
+                        fulltime: "30",
+                        time: "30",
+                        owner: "Null",
+                        blocked: false
+                    },
                     {
-                        sum = sum+parseInt(this.storyset[i].fulltime);
+                        id: 1,
+                        name: "#2",
+                        fulltime: "35",
+                        time: "35",
+                        owner: "Null",
+                        blocked: false
+                    },
+                    {
+                        id: 2,
+                        name: "#3",
+                        fulltime: "40",
+                        time: "40",
+                        owner: "Null",
+                        blocked: false
+                    },
+                    {
+                        id: 3,
+                        name: "#4",
+                        fulltime: "28",
+                        time: "28",
+                        owner: "Null",
+                        blocked: false
+                    },
+                    {
+                        id: 4,
+                        name: "#5",
+                        fulltime: "20",
+                        time: "20",
+                        owner: "Null",
+                        blocked: false
+                    },
+                    {
+                        id: 5,
+                        name: "#6",
+                        fulltime: "10",
+                        time: "10",
+                        owner: "Null",
+                        blocked: false
+                    },
+                    {
+                        id: 6,
+                        name: "#7",
+                        fulltime: "22",
+                        time: "22",
+                        owner: "Null",
+                        blocked: false
+                    },
+                    {
+                        id: 7,
+                        name: "#8",
+                        fulltime: "33",
+                        time: "33",
+                        owner: "Null",
+                        blocked: false
+                    },
+                    {
+                        id: 8,
+                        name: "#9",
+                        fulltime: "21",
+                        time: "21",
+                        owner: "Null",
+                        blocked: false
+                    },
+                ],
+                todoset: [
+
+                ],
+                progressset: [
+
+                ],
+                doneset: [
+
+                ],
+
+                card: [
+                    //时间加减,teshu对应01234，0为时间加减，1为清空，2为还原，3为problem，4为solution
+                    //另外事件不会从事件集中去除
+                    {
+                        id: 0,
+                        name: "Event1",
+                        promote: "10",
+                        postpone: "0",
+                        teshu: "0",
+                        desc: "Deduct 10 hours"
+                    },
+                    {
+                        id: 1,
+                        name: "Event2",
+                        promote: "0",
+                        teshu: "0",
+                        desc: "Deduct 0 hours"
+                    },
+                    {
+                        id: 2,
+                        name: "Event3",
+                        promote: "-3",
+                        teshu: "0",
+                        desc: "Add 3 more hours"
+                    },
+                    {
+                        id: 3,
+                        name: "Event4",
+                        promote: "0",
+                        teshu: "1",
+                        desc: "Deduct to 0 and finish"
+                    },
+                    {
+                        id: 4,
+                        name: "Event5",
+                        promote: "0",
+                        teshu: "2",
+                        desc: "Return to full hours"
+                    },
+                    {
+                        id: 5,
+                        name: "Problem",
+                        promote: "0",
+                        teshu: "3",
+                        desc: "Problem and Story block"
+                    },
+                    {
+                        id: 6,
+                        name: "Solution",
+                        promote: "0",
+                        teshu: "4",
+                        desc: "Solution to unblock story"
                     }
-                    for(var i=0;i<this.todoset.length;i++){
-                        sum = sum+parseInt(this.todoset[i].fulltime);
-                    }
-                    for(var i=0;i<this.progressset.length;i++){
-                        sum = sum+parseInt(this.progressset[i].fulltime);
-                    }
-                    for(var i=0;i<this.doneset.length;i++){
-                        sum = sum+parseInt(this.doneset[i].fulltime);
-                    }
-                    this.totaltime = sum;
+                ]
+            },
+            computed: {
+
+            },
+            watch: {
+
+            },
+            methods: {
+                //
+                init() {
+                    this.groupno = parseInt(Math.ceil(Math.random() * 1000));
                 },
-                jisuanmuqiantime(){
+
+                confirm() {
+                    if (this.ngroup != "" && parseInt(this.ngroup) > 0 && parseInt(this.ngroup) < 8) {
+                        for (var i = 0; i < this.storyset.length; i++) {
+                            this.totalhours = this.totalhours + parseInt(this.storyset[i].fulltime);
+                        }
+                        this.lefthours = this.totalhours;
+                        this.bdc_array[0] = [0,this.totalhours];
+                        this.start = true;
+                        this.init();
+                        this.confirm_flag = true;
+                    } else {
+                        alert("The number of member must be an integer larger than 0 and smaller than 8!\nPlease input again!");
+                    }
+                },
+                calc_lefthour() {
                     var sum = 0;
-                    for(var i=0;i<this.todoset.length;i++){
-                        sum = sum+parseInt(this.todoset[i].time);
+                    for (var i = 0; i < this.storyset.length; i++) {
+                        sum = sum + parseInt(this.storyset[i].time);
                     }
-                    for(var i=0;i<this.progressset.length;i++){
-                        sum = sum+parseInt(this.progressset[i].time);
+                    for (var i = 0; i < this.todoset.length; i++) {
+                        sum = sum + parseInt(this.todoset[i].time);
                     }
-                    this.muqiantime = sum;
+                    for (var i = 0; i < this.progressset.length; i++) {
+                        sum = sum + parseInt(this.progressset[i].time);
+                    }
+                    this.lefthours = sum;
+                    alert("this.lefthours" + this.lefthours);
+                    this.bdc_array[this.sprint]=[this.sprint, this.lefthours];
                 },
-                indexOf(val,shuzu) { 
-                    for (var i = 0; i < shuzu.length; i++) { 
-                        if (shuzu[i] == val) return i; 
-                    } 
-                    return -1; 
+                indexOf(val, shuzu) {
+                    for (var i = 0; i < shuzu.length; i++) {
+                        if (shuzu[i] == val) return i;
+                    }
+                    return -1;
                 },
-                xuantodo(item){
-                    if(this.xuan1=="true"){
-                        this.storyset.splice(this.indexOf(item,this.storyset),1);
+                done() {
+                    var valid_story = 0;
+                    for (var i = 0; i < this.todoset.length; i++) {
+                        if (this.todoset[i].blocked != true){
+                            valid_story++;
+                        }
+                    }
+                    for (var i = 0; i < this.progressset.length; i++) {
+                        if (this.progressset[i].blocked != true){
+                            valid_story++;
+                        }
+                    }
+                    if(valid_story < this.ngroup){
+                        alert("The story available in TODO and INPROGRESS must be more than the number of members = " + this.ngroup + ".");
+                    } else {
+                        this.backlog_flag = false;
+                        this.todo_flag = true;
+                    }
+                    
+                },
+                xuantodo(item) {
+                    if (this.backlog_flag == true) {
+                        this.storyset.splice(this.indexOf(item, this.storyset), 1);
                         this.todoset.push(item);
-                    }else alert("nope");
-                    this.jisuanmuqiantime();
-                    this.jisuantotaltime();
+                    } else alert("nope");
+
                 },
-                chooseTR(item){
-                    if(this.xuan2=="true"){
-                        this.todoset.splice(this.indexOf(item,this.todoset),1);
+                chooseTR(item) {
+                    if (this.todo_flag == true) {
+                        this.todoset.splice(this.indexOf(item, this.todoset), 1);;
                         this.progressset.push(item);
-                        item.people=this.number;
-                        for(var x=0;x<this.peoplestatus.length;x++)
-                        	{
-                        	   if(item.people==this.peoplestatus[x].name)
-                        		   {
-                        		      this.peoplestatus[x].story=item.name;
-                        		   }
-                        	}
-                        this.number=parseInt(this.number)%this.ngroup+1;
-                        if(this.number>this.ngroup){
-                            this.number=1;
-                            
-                        }
-                    }else alert("nope");
-                    this.jisuanmuqiantime();
-                    this.jisuantotaltime();
+                        item.owner = this.member;
+                        this.currentstory = item;
+                        this.todo_flag = false;
+                        this.rolldice_flag = true;
+                        this.step_flag = true;
+                    } else alert("nope");
+
                 },
-                jixuxuan(){
-                    if(this.progressset.length<this.ngroup)
-                        return true;
-                    else{
-                        
-                        if(this.statuskeshi==true)
-                        	this.rl=true;
-                            this.statuskeshi=false;
-                        return false;
+                mapping(item) {
+                    if (this.todo_flag == true) {
+                        item.owner = this.member;
+                        this.currentstory = item;
+                        this.todo_flag = false;
+                        this.rolldice_flag = true;
+                        this.step_flag = true;
+                    } else alert("nope");
+
+                },
+
+                finish(storyid) { //此函数为完成检查
+                    alert("Well done! Story" + this.progressset[storyid].name + " is done!");
+                    this.doneset.push(this.progressset[storyid]);
+                    this.progressset.splice(storyid, 1);
+                },
+                step() {
+                    switch (this.step_value) {
+                        case "Roll Dice":
+                            this.rolldice();
+                            break;
+                        case "Draw Card":
+                            this.drawcard();
+                            break;
+                        case "Next":
+                            this.next();
+                            break;
+                        default:
+                            this.next();
                     }
+
                 },
-                finish(){//此函数为完成检查
-                	for(var i=0;i<this.progressset.length;i++)//遍历事件
-                    {
-                        if(this.progressset[i].time=="0"&&this.progressset[i].blocked=="false")
+                rolldice() {
+                    this.dicenumber = parseInt(Math.ceil(Math.random() * 12));
+                    alert("Dicenumber: " + this.dicenumber +" .");
+                    var storyid = this.indexOf(this.currentstory, this.progressset);
+                    this.progressset[storyid].time = parseInt(this.progressset[storyid].time) -
+                        parseInt(this.dicenumber); //检查清零
+                    if (this.progressset[storyid].time <= 0) {
+                        this.progressset[storyid].time = 0;
+                        this.finish(storyid);
+                        this.storyclear = true;
+                    }
+                    this.step_value = "Draw Card";
+                },
+                drawcard() {
+                    var cardid = parseInt(Math.ceil(Math.random() * this.card.length)) - 1;
+                    //var cardid =3;
+                    this.current_card = this.card[cardid];
+
+                    alert("Card Name: " + this.current_card
+                        .name + "\nCard Description: " + this.current_card.desc);
+
+                    if (this.storyclear == false) {
+                        var storyid = this.indexOf(this.currentstory, this.progressset);
+                        if (this.current_card.teshu == "0") //promote有正有负，因此一律加即可不考虑加减时间
                         {
-                        	this.doneset.push(this.progressset[i]);
-                        	this.progressset.splice(this.indexOf(this.progressset[i],this.progressset),1);
-                        	//delete this.progressset[i] in progressset
-                        	alert("finish"+this.progressset[i]);
+                            //alert("before this.progressset[storyid].time" + this.progressset[storyid].time);
+                            this.progressset[storyid].time = parseInt(this.progressset[storyid]
+                                .time) - parseInt(this.current_card.promote);
+                            if (this.progressset[storyid].time > this.progressset[storyid]
+                                .fulltime) {
+                                this.progressset[storyid].time = this.progressset[storyid].fulltime
+                            }
+                            //alert("after this.progressset[storyid].time" + this.progressset[storyid].time);
+                            if (this.progressset[storyid].time <= 0) {
+                                this.progressset[storyid].time = 0;
+                                this.finish(storyid);
+                            }
+                        }
+                        if (this.current_card.teshu == "1") //清空
+                        {
+                            this.progressset[storyid].time = parseInt("0");
+                            this.finish(storyid);
+
+                        }
+                        if (this.current_card.teshu == "2") //还原
+                        {
+                            this.progressset[storyid].time = parseInt(this.progressset[storyid]
+                                .fulltime);
+                        }
+                        if (this.current_card.teshu == "3") //problem, block
+                        {
+                            if (parseInt(this.solution_count) > 0) {
+                                this.solution_count = parseInt(this.solution_count) - parseInt("1");
+                                alert("One solution count is used to offset the current problem lock.");
+                            } else {
+                                this.progressset[storyid].blocked = true;
+                                this.story_lock_count = parseInt(this.story_lock_count) + parseInt(
+                                    "1");
+                            }
+
+                        }
+                    } else {
+                        alert("Current Story " + this.currentstory.name + " is cleared! \nThis card is invalid!");
+                    }
+
+                    if (this.current_card.teshu == "4") //solution, unblock
+                    {
+                        if (this.story_lock_count > 0) {
+                            for (var i = 0; i < this.progressset.length; i++) {
+                                if (this.progressset[i].blocked == true) {
+                                    this.progressset[i].blocked = false;
+                                    alert("Congratulations! Story " + this.progressset[i].name +
+                                        " is unlocked!");
+                                    this.story_lock_count = parseInt(this.story_lock_count) -
+                                        parseInt("1");
+                                    i = this.progressset.length; //跳出循环
+                                }
+                            }
+                        } else {
+                            this.solution_count = parseInt(this.solution_count) + parseInt("1");
                         }
                     }
-                    //更新burndown
-                    //this.jisuanmuqiantime();
+                    this.step_value = "Next";
                 },
-                live(item)
-                {
-                	if(parseInt(item.number)<=parseInt(this.number))
-                    {
-        	           return true;
-                    }
-                    else
-                    {
-                       return false;	
-                    }
+                next() {
+                    this.step_flag = false;
+                    this.step_value = "Roll Dice";
+                    this.nextmember();
                 },
-                roll()
-                {
-                	//alert(parseInt(Math.ceil(Math.random()*12)));
-                	var shaizishu;
-                    shaizishu = parseInt(Math.ceil(Math.random()*12));
-                    this.currentdice=shaizishu;
-                    this.peoplestatus[this.number-1].dicenumber=shaizishu;
-                    alert(this.peoplestatus[this.number-1].dicenumber);
-                    var tempnumber;
+
+                nextmember() {
+                    this.currentstory.owner = "Null";
+                    this.currentstory = "";
+                    this.dicenumber = 0;
+                    this.storyclear = false;
+                    this.todo_flag = true;
+                    if (this.member < this.ngroup) {
+                        this.member = this.member + 1;
+                        alert("Next Member: Member" + this.member + "\nPlease choose one story.");
+                        this.current_card = "";
+                    } else {
+                        this.nextday();
+
+                    }
+
+                },
+                nextday() {
                     
-                    for(var i=0;i<this.progressset.length;i++)//寻找对应事件
-                    {
-                        if(parseInt(this.progressset[i].people)==parseInt(this.number))
-                        {
-                        	tempnumber=i;
-                        }
+                    if (this.day < this.DAY_MAX) {
+                        this.day = this.day + 1;
+                        alert("Next Day: Day" + this.day + "\nPlease choose one story.");
+                        //this.current_card="";
+                        this.todo_flag = true;
+                        this.member = 1;
+                    } else {
+                        this.nextsprint();
+
                     }
-                    if(parseInt(this.progressset[tempnumber].time)>parseInt(shaizishu))
-                      this.progressset[tempnumber].time=parseInt(this.progressset[tempnumber].time)-parseInt(shaizishu);
-                    else
-                      this.progressset[tempnumber].time=0;
-                    this.ra=true;
-                    this.rl=false;
-                    
-                    //alert(this.progressset[tempnumber].time);                    
-                    //v-if
+
                 },
-                random()
-                {
-                	var tempnumber;
-                	for(var i=0;i<this.progressset.length;i++)//寻找对应事件
-                    {
-                        if(parseInt(this.progressset[i].people)==parseInt(this.number))
-                        {
-                        	tempnumber=i;    
-                        }
+                nextsprint() {
+                    this.calc_lefthour();
+                    if (this.sprint < this.SPRINT_MAX) {
+                        this.sprint = this.sprint + 1;
+                        alert("Next Sprint: Sprint" + this.sprint + "\nPlease choose more stories into TODO.");
+                        //this.current_card="";
+                        this.backlog_flag = true;
+                        this.todo_flag = false;
+                        this.day = 1;
+                        this.member = 1;
+                    } else {
+                        alert("Total " + this.sprint + "Sprints finish! \nGame over!\nPlease review Burndown Chart below.");
+                        this.backlog_flag = false;
+                        this.todo_flag = false;
+
                     }
-                	 var shijianhao;
-                     shijianhao = parseInt(Math.ceil(Math.random()*this.event.length));
-                     this.currentdrawteshu=this.event[shijianhao-1].teshu;
-                     this.currentdrawpromote=this.event[shijianhao-1].Promote;
-                     this.currentdrawdis=this.event[shijianhao-1].beizhu;
-                     //alert(shijianhao);
-                     alert("dangqianshijianshi "+this.event[shijianhao-1].teshu+"   "+this.event[shijianhao-1].beizhu);
-                     
-                     if(this.event[shijianhao-1].teshu=="0")//promote有正有负，因此一律加即可不考虑加减时间
-                     {
-                     	this.progressset[tempnumber].time=parseInt(this.progressset[tempnumber].time)-parseInt(this.event[shijianhao-1].Promote);
-                        this.finish();
-                        alert(this.progressset[tempnumber].time);
-                     }
-                     
-                     if(this.event[shijianhao-1].teshu=="1")
-                     {
-                     	this.progressset[tempnumber].time=parseInt("0");
-                     	this.finish();
-                     	//alert(this.progressset[tempnumber].time);
-                     }
-                     
-                     if(this.event[shijianhao-1].teshu=="2")
-                     {
-                     	this.progressset[tempnumber].time=parseInt(this.progressset[tempnumber].fulltime);
-                     	this.finish();
-                     	alert(this.progressset[tempnumber].time);
-                     }
-                     if(this.event[shijianhao-1].teshu=="3"&&this.progressset[tempnumber].blocked=="false")
-                     {
-                     	this.progressset[tempnumber].blocked="true";
-                     	this.currentlock=parseInt(this.currentlock)+1;
-                     	if(parseInt(this.solution)>0)
-                         {
-         	               this.progressset[tempnumber].blocked="false";
-         	               this.solution=parseInt(this.solution)-parseInt("1");
-         	               //alert
-                         }
-                     	
-                     	this.finish();
-                     	alert(this.progressset[tempnumber].blocked);
-                     }
-                     
-                     if(this.event[shijianhao-1].teshu=="4")
-                     {
-                     	//第一种处理如下：
-                     	//第一次检查当前集是否存在block
-                     	var t;
-                     	t=0;
-                     	while(t<this.progressset.length)//寻找对应事件
-                         {
-                             if(this.progressset[t].blocked=="true")
-                             {
-                               this.progressset[t].blocked=="false"
-                         	   t=this.progressset.length+3;
-                               this.currentlock=parseInt(this.currentlock)-1;
-                             }
-                             else t=t+1;
-                         }
-                     	//搜完了没有block
-                     	if(t!=this.progressset.length+3)
-                     	{
-                     		this.solution=parseInt(this.solution)+parseInt("1");
-                     	}
-                     	alert(this.solution);
-                     }
-                     this.ns=true;
-                     this.ra=false;
-                     
-                    //v-if
-                },
-                
-                nextstep()
-                {
-                	var t;
-                 	t=0;
-                 	while(t<this.progressset.length)//寻找对应事件
-                     {
-                         if(this.progressset[t].blocked=="true")
-                         {
-                           this.progressset[t].blocked=="false"
-                     	   t=this.progressset.length+3;
-                           this.currentlock=parseInt(this.currentlock)-1;
-                         }
-                         else t=t+1;
-                     }
-                	alert("next step");
-                	if(parseInt(this.number)<=this.ngroup)
-                	   this.number=parseInt(this.number)%this.ngroup+1;
-                	else
-                	{
-                		this.number=parseInt(this.number)%this.ngroup+1;
-                		this.day=parseInt(this.day)+1;
-                		alert("day= "+this.day);
-                	}
-                	if(this.day==3)
-                	{
-                		this.number=parseInt(this.number)%this.ngroup+1;
-                		this.day=1;
-                		this.spirit=parseInt(this.spirit)+1;
-                		alert("spirit= "+this.spirit);
-                		for(var x=0;x<this.progressset.length;x++)
-                		  this.todoset.push(this.progressset[x]);
-                		this.progressset.splice(0,this.progressset.length);
-                	}
-                	else
-                		this.day=parseInt(this.day)+1;
-                	this.rl=true;
-                	this.ns=false;
-                	if(this.spirit>3)
-                	{
-                		alert("game over");
-                		this.rl=false;
-                		this.ra=false;
-                		this.ns=false;
-                	}
-                	
-                	//v-if
+
                 }
+            },
+            refresh_bdc(){
+                this.calc_lefthour();
+                //refresh burndownchart
                 
             }
+
+            /* roll() {
+                this.dicenumber = parseInt(Math.ceil(Math.random() * 12));
+                alert("dicenumber: " + this.dicenumber);
+                var storyid = this.indexOf(this.currentstory, this.progressset);
+                this.progressset[storyid].time = parseInt(this.progressset[storyid].time) - parseInt(
+                    this.dicenumber); //检查清零
+                if (this.progressset[storyid].time <= 0) {
+                    this.progressset[storyid].time = 0;
+                    //this.doneset.push(this.progressset[storyid]);
+                    //this.progressset.splice(storyid,1);
+                    //alert("Well done! Story" + this.progressset[storyid].name + " is done!");
+                    this.finish(storyid);
+                    this.storyclear = true;
+                }
+                this.rolldice_flag = false;
+                this.drawcard_flag = true;
+            },
+            draw() {
+                var cardid = parseInt(Math.ceil(Math.random() * this.card.length)) - 1;
+                //var cardid =3;
+                this.current_card = this.card[cardid];
+
+                alert("cardnumber: " + cardid + "- this.current_card.name: " + this.current_card.name +
+                    "- this.current_card.teshu: " + this.current_card.teshu +
+                    "- this.current_card.desc: " + this.current_card.desc);
+
+                if (this.storyclear == false) {
+                    var storyid = this.indexOf(this.currentstory, this.progressset);
+                    if (this.current_card.teshu == "0") //promote有正有负，因此一律加即可不考虑加减时间
+                    {
+                        alert("before this.progressset[storyid].time" + this.progressset[storyid].time);
+                        this.progressset[storyid].time = parseInt(this.progressset[storyid].time) -
+                            parseInt(this.current_card.promote);
+                        if (this.progressset[storyid].time > this.progressset[storyid].fulltime) {
+                            this.progressset[storyid].time = this.progressset[storyid].fulltime
+                        }
+                        alert("after this.progressset[storyid].time" + this.progressset[storyid].time);
+                        if (this.progressset[storyid].time <= 0) {
+                            this.progressset[storyid].time = 0;
+                            //this.doneset.push(this.progressset[storyid]);
+                            //this.progressset.splice(storyid,1);
+                            //alert("Well done! Story" + this.progressset[storyid].name + " is done!");
+                            this.finish(storyid);
+                        }
+                    }
+                    if (this.current_card.teshu == "1") //清空
+                    {
+                        this.progressset[storyid].time = parseInt("0");
+                        this.finish(storyid);
+                        //this.doneset.push(this.progressset[storyid]);
+                        //this.progressset.splice(storyid,1);
+                        //alert("Well done! Story" + this.progressset[storyid].name + " is done!");
+                    }
+                    if (this.current_card.teshu == "2") //还原
+                    {
+                        this.progressset[storyid].time = parseInt(this.progressset[storyid].fulltime);
+                    }
+                    if (this.current_card.teshu == "3") //problem, block
+                    {
+                        if (parseInt(this.solution_count) > 0) {
+                            this.solution_count = parseInt(this.solution_count) - parseInt("1");
+                        } else {
+                            this.progressset[storyid].blocked = true;
+                            this.story_lock_count = parseInt(this.story_lock_count) + parseInt("1");
+                        }
+
+                    }
+                } else {
+                    alert("Current story is cleared!");
+                }
+
+                if (this.current_card.teshu == "4") //solution, unblock
+                {
+                    if (this.story_lock_count > 0) {
+                        for (var i = 0; i < this.progressset.length; i++) {
+                            if (this.progressset[i].blocked == true) {
+                                this.progressset[i].blocked = false;
+                                alert("Congratulations! Story" + this.progressset[i].name +
+                                    "is unlocked!");
+                                this.story_lock_count = parseInt(this.story_lock_count) - parseInt("1");
+                                i = this.progressset.length; //跳出循环
+                            }
+                        }
+                    } else {
+                        this.solution_count = parseInt(this.solution_count) + parseInt("1");
+                    }
+                }
+                this.drawcard_flag = false;
+                this.nextmember();
+            }, */
+
+
         });
     }
-    
 </script>
 
 </html>
