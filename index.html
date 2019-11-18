@@ -157,7 +157,7 @@
     }
 </style>
 
-<body onload='init()'>
+<body>
 
     <div class="wrapper">
 
@@ -166,10 +166,10 @@
 
 
         <div class="inputnumber">
-            Input Number of Members 
-            <input type="text":disabled="confirm_flag" v-model="ngroup" size="5"/>
+            Input Number of Members
+            <input type="text" :disabled="confirm_flag" v-model="ngroup" size="5" />
             <!-- <button v-on:click="!(confirm_flag) && confirm()" >Confirm</button> -->
-            <input type="button":disabled="confirm_flag" v-on:click="!(confirm_flag) && confirm()" value="Confirm" />
+            <input type="button" :disabled="confirm_flag" v-on:click="!(confirm_flag) && confirm()" value="Confirm" />
         </div>
 
         <div class="sprint">Sprint: {{sprint}}</div>
@@ -236,11 +236,8 @@
 
 <script src=".\pro\node_modules\vue\dist\vue.js"></script>
 <script type="text/javascript">
-    function init(){
-        
-    }
     window.onload = function () {
-        //初始化group No.
+
         let vm = new Vue({
             el: ".wrapper",
             data: {
@@ -251,7 +248,7 @@
                 DAY_MAX: 3,
                 member: 1,
                 ngroup: "",
-                groupno:0,
+                groupno: 0,
 
                 bdc_array: [],
 
@@ -265,8 +262,7 @@
                 backlog_flag: true,
                 todo_flag: false,
                 storyclear: false,
-                rolldice_flag: false,
-                drawcard_flag: false,
+
                 step_flag: false,
 
                 story_lock_count: "0",
@@ -411,7 +407,7 @@
                         name: "Solution",
                         promote: "0",
                         teshu: "4",
-                        desc: "Solution to unblock story"
+                        desc: "Solution to unlock story"
                     }
                 ]
             },
@@ -422,25 +418,27 @@
 
             },
             methods: {
-                //
+                //随机生成一个小组号（0-1000）
                 init() {
                     this.groupno = parseInt(Math.ceil(Math.random() * 1000));
                 },
-
+                //确认小组成员数目
                 confirm() {
                     if (this.ngroup != "" && parseInt(this.ngroup) > 0 && parseInt(this.ngroup) < 8) {
                         for (var i = 0; i < this.storyset.length; i++) {
                             this.totalhours = this.totalhours + parseInt(this.storyset[i].fulltime);
                         }
                         this.lefthours = this.totalhours;
-                        this.bdc_array[0] = [0,this.totalhours];
+                        this.bdc_array[0] = [0, this.totalhours];
                         this.start = true;
                         this.init();
                         this.confirm_flag = true;
                     } else {
-                        alert("The number of member must be an integer larger than 0 and smaller than 7!\nPlease input again!");
+                        alert(
+                            "The number of member must be an integer larger than 0 and smaller than 7!\nPlease input again!");
                     }
                 },
+                //计算剩余小时数
                 calc_lefthour() {
                     var sum = 0;
                     for (var i = 0; i < this.storyset.length; i++) {
@@ -454,7 +452,7 @@
                     }
                     this.lefthours = sum;
                     //alert("this.lefthours" + this.lefthours);
-                    this.bdc_array[this.sprint]=[this.sprint, this.lefthours];
+                    this.bdc_array[this.sprint] = [this.sprint, this.lefthours];
                 },
                 //检查TODO和INPROGRESS是否有可运行的Story
                 available_story() {
@@ -476,8 +474,9 @@
                     }
                     return -1;
                 },
+                //点击BACKLOG下的DONE按钮触发事件
                 done() {
-                    /* var valid_story = 0;
+                    var valid_story = 0;
                     for (var i = 0; i < this.todoset.length; i++) {
                         if (this.todoset[i].blocked != true){
                             valid_story++;
@@ -489,15 +488,13 @@
                         }
                     }
                     if(valid_story < this.ngroup){
-                        alert("The story available in TODO and INPROGRESS must be more than the number of members = " + this.ngroup + ".");
-                    } else {
-                        this.backlog_flag = false;
-                        this.todo_flag = true;
-                    } */
-                    
+                        alert("The story available in TODO and INPROGRESS is less than the number of members = " + this.ngroup + ".");
+                    } 
+
                     this.backlog_flag = false;
                     this.todo_flag = true;
                 },
+                //选择Story，从BACKLOG到TODO
                 xuantodo(item) {
                     if (this.backlog_flag == true) {
                         this.storyset.splice(this.indexOf(item, this.storyset), 1);
@@ -505,6 +502,7 @@
                     } else alert("nope");
 
                 },
+                //选择Story，从TODO到INPROGRESS
                 chooseTR(item) {
                     if (this.todo_flag == true) {
                         this.todoset.splice(this.indexOf(item, this.todoset), 1);;
@@ -517,6 +515,7 @@
                     } else alert("nope");
 
                 },
+                //选择Story，从INPROGRESS
                 mapping(item) {
                     if (this.todo_flag == true) {
                         item.owner = this.member;
@@ -527,12 +526,13 @@
                     } else alert("nope");
 
                 },
-
-                finish(storyid) { //此函数为完成检查
+                //某个Story已完成，加入到DONE
+                finish(storyid) { 
                     alert("Well done! Story" + this.progressset[storyid].name + " is done!");
                     this.doneset.push(this.progressset[storyid]);
                     this.progressset.splice(storyid, 1);
                 },
+                //三个按钮操作步骤
                 step() {
                     switch (this.step_value) {
                         case "Roll Dice":
@@ -551,10 +551,10 @@
                 },
                 rolldice() {
                     this.dicenumber = parseInt(Math.ceil(Math.random() * 12));
-                    alert("Dicenumber: " + this.dicenumber +" .");
+                    alert("Dicenumber: " + this.dicenumber + " .");
                     var storyid = this.indexOf(this.currentstory, this.progressset);
                     this.progressset[storyid].time = parseInt(this.progressset[storyid].time) -
-                        parseInt(this.dicenumber); //检查清零
+                        parseInt(this.dicenumber); 
                     if (this.progressset[storyid].time <= 0) {
                         this.progressset[storyid].time = 0;
                         this.finish(storyid);
@@ -611,10 +611,11 @@
 
                         }
                     } else {
-                        alert("Current Story " + this.currentstory.name + " is cleared! \nThis card is invalid!");
+                        alert("Current Story " + this.currentstory.name +
+                            " is cleared! \nThis card is invalid!");
                     }
 
-                    if (this.current_card.teshu == "4") //solution, unblock
+                    if (this.current_card.teshu == "4") //solution, unlock
                     {
                         if (this.story_lock_count > 0) {
                             for (var i = 0; i < this.progressset.length; i++) {
@@ -660,7 +661,7 @@
 
                 },
                 nextday() {
-                    
+
                     if (this.day < this.DAY_MAX) {
                         this.day = this.day + 1;
                         alert("Next Day: Day" + this.day + "\nPlease choose one story.");
@@ -677,14 +678,16 @@
                     this.calc_lefthour();
                     if (this.sprint < this.SPRINT_MAX) {
                         this.sprint = this.sprint + 1;
-                        alert("Next Sprint: Sprint" + this.sprint + "\nPlease choose more stories into TODO.");
+                        alert("Next Sprint: Sprint" + this.sprint +
+                            "\nPlease choose more stories into TODO.");
                         //this.current_card="";
                         this.backlog_flag = true;
                         this.todo_flag = false;
                         this.day = 1;
                         this.member = 1;
                     } else {
-                        alert("Total " + this.sprint + " Sprints finish! \nGame over!\nPlease review Burndown Chart below.");
+                        alert("Total " + this.sprint +
+                            " Sprints finish! \nGame over!\nPlease review Burndown Chart below.");
                         this.backlog_flag = false;
                         this.todo_flag = false;
 
@@ -692,105 +695,17 @@
 
                 }
             },
-            refresh_bdc(){
+            refresh_bdc() {
                 this.calc_lefthour();
                 //refresh burndownchart
-                
+
             }
-
-            /* roll() {
-                this.dicenumber = parseInt(Math.ceil(Math.random() * 12));
-                alert("dicenumber: " + this.dicenumber);
-                var storyid = this.indexOf(this.currentstory, this.progressset);
-                this.progressset[storyid].time = parseInt(this.progressset[storyid].time) - parseInt(
-                    this.dicenumber); //检查清零
-                if (this.progressset[storyid].time <= 0) {
-                    this.progressset[storyid].time = 0;
-                    //this.doneset.push(this.progressset[storyid]);
-                    //this.progressset.splice(storyid,1);
-                    //alert("Well done! Story" + this.progressset[storyid].name + " is done!");
-                    this.finish(storyid);
-                    this.storyclear = true;
-                }
-                this.rolldice_flag = false;
-                this.drawcard_flag = true;
-            },
-            draw() {
-                var cardid = parseInt(Math.ceil(Math.random() * this.card.length)) - 1;
-                //var cardid =3;
-                this.current_card = this.card[cardid];
-
-                alert("cardnumber: " + cardid + "- this.current_card.name: " + this.current_card.name +
-                    "- this.current_card.teshu: " + this.current_card.teshu +
-                    "- this.current_card.desc: " + this.current_card.desc);
-
-                if (this.storyclear == false) {
-                    var storyid = this.indexOf(this.currentstory, this.progressset);
-                    if (this.current_card.teshu == "0") //promote有正有负，因此一律加即可不考虑加减时间
-                    {
-                        alert("before this.progressset[storyid].time" + this.progressset[storyid].time);
-                        this.progressset[storyid].time = parseInt(this.progressset[storyid].time) -
-                            parseInt(this.current_card.promote);
-                        if (this.progressset[storyid].time > this.progressset[storyid].fulltime) {
-                            this.progressset[storyid].time = this.progressset[storyid].fulltime
-                        }
-                        alert("after this.progressset[storyid].time" + this.progressset[storyid].time);
-                        if (this.progressset[storyid].time <= 0) {
-                            this.progressset[storyid].time = 0;
-                            //this.doneset.push(this.progressset[storyid]);
-                            //this.progressset.splice(storyid,1);
-                            //alert("Well done! Story" + this.progressset[storyid].name + " is done!");
-                            this.finish(storyid);
-                        }
-                    }
-                    if (this.current_card.teshu == "1") //清空
-                    {
-                        this.progressset[storyid].time = parseInt("0");
-                        this.finish(storyid);
-                        //this.doneset.push(this.progressset[storyid]);
-                        //this.progressset.splice(storyid,1);
-                        //alert("Well done! Story" + this.progressset[storyid].name + " is done!");
-                    }
-                    if (this.current_card.teshu == "2") //还原
-                    {
-                        this.progressset[storyid].time = parseInt(this.progressset[storyid].fulltime);
-                    }
-                    if (this.current_card.teshu == "3") //problem, block
-                    {
-                        if (parseInt(this.solution_count) > 0) {
-                            this.solution_count = parseInt(this.solution_count) - parseInt("1");
-                        } else {
-                            this.progressset[storyid].blocked = true;
-                            this.story_lock_count = parseInt(this.story_lock_count) + parseInt("1");
-                        }
-
-                    }
-                } else {
-                    alert("Current story is cleared!");
-                }
-
-                if (this.current_card.teshu == "4") //solution, unblock
-                {
-                    if (this.story_lock_count > 0) {
-                        for (var i = 0; i < this.progressset.length; i++) {
-                            if (this.progressset[i].blocked == true) {
-                                this.progressset[i].blocked = false;
-                                alert("Congratulations! Story" + this.progressset[i].name +
-                                    "is unlocked!");
-                                this.story_lock_count = parseInt(this.story_lock_count) - parseInt("1");
-                                i = this.progressset.length; //跳出循环
-                            }
-                        }
-                    } else {
-                        this.solution_count = parseInt(this.solution_count) + parseInt("1");
-                    }
-                }
-                this.drawcard_flag = false;
-                this.nextmember();
-            }, */
 
 
         });
+    };
+    window.onbeforeunload = function() {
+        return "All the information will be lost if you continue!";//Refresh reminding.
     }
 </script>
 
